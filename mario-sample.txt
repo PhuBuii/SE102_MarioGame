@@ -1,5 +1,5 @@
 [SETTINGS]
-start	5
+start	1
 width	320
 height	240
 
@@ -13,7 +13,10 @@ height	240
 
 # id	file 
 [TEXTURES]
--100	textures\bbox.png
 0	textures\mario.png
 10	textures\enemies.png
 20	textures\misc.png
+21	textures\misc_1.png
+22	textures\misc_2.png
+23	textures\misc_3.png
+24	textures\ground.png

@@ -3,6 +3,7 @@
 #include <d3d10.h>
 #include <d3dx10.h>
 #include <unordered_map>
+#include <string>
 
 using namespace std;
 
@@ -12,7 +13,6 @@ using namespace std;
 #include "Texture.h"
 #include "KeyEventHandler.h"
 #include "Scene.h"
-#include <string>
 
 #define MAX_FRAME_RATE 100
 #define KEYBOARD_BUFFER_SIZE 1024
