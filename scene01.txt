@@ -15,11 +15,15 @@ background.txt
 
 # Background
 # extra: sprite_id_background
+## BUSH
 6	75	155	72000
 
-6	170	179	71000
-6	186	179	71000
-6	202	179	71000
+6	165	179	71000
+6	181	179	71000
+6	197	179	71000
+
+## CLOUD
+6	180	45	55000
 
 # MARIO
 0	40	171
@@ -40,7 +44,7 @@ background.txt
 #type	x	y	width	height	length	id_begin	id_middle	id_end
 
 ##GROUNDS
-5	5	193	16	16	40	61000	62000	63000
+5	5	193	16	15	40	61000	62000	63000
 
 #Portal 
 
