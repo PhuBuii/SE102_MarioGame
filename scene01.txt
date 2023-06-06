@@ -30,7 +30,7 @@ background.txt
 4	180	120
 
 #Goomba
-
+2	60	150
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end

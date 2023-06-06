@@ -87,6 +87,12 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -163,9 +169,6 @@
     <Image Include="textures\bbox.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\enemies.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="textures\ground.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -185,6 +188,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="textures\misc_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\enemies.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -214,6 +220,12 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="scene0005.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="background.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ground.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
