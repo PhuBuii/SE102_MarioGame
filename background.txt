@@ -1,0 +1,5 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+
+# BUSH SMALL
+71000	520	215	649	280	21

@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -165,13 +166,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
-    <ClCompile Include="Scence.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -179,6 +181,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico" />
+    <Image Include="textures\bbox.png" />
+    <Image Include="textures\enemies.png" />
+    <Image Include="textures\ground.png" />
+    <Image Include="textures\mario.png" />
+    <Image Include="textures\misc.png" />
+    <Image Include="textures\misc_1.png" />
+    <Image Include="textures\misc_1_transparent.png" />
+    <Image Include="textures\misc_2.png" />
+    <Image Include="textures\misc_3.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />

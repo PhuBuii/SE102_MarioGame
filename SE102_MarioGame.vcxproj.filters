@@ -134,9 +134,6 @@
     <ClCompile Include="SampleKeyEventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scence.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -149,9 +146,45 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\bbox.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\enemies.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\ground.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\mario.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc_1_transparent.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc_3.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
