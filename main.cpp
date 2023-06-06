@@ -152,7 +152,7 @@ int Run()
 	MSG msg;
 	int done = 0;
 	ULONGLONG frameStart = GetTickCount64();
-	DWORD tickPerFrame = 500 / MAX_FRAME_RATE;
+	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
 
 	while (!done)
 	{
@@ -205,7 +205,7 @@ int WINAPI WinMain(
 	//IMPORTANT: this is the only place where a hardcoded file name is allowed ! 
 	game->Load(L"mario-sample.txt");  
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*3, SCREEN_HEIGHT*3, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

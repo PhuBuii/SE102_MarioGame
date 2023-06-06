@@ -15,10 +15,14 @@ background.txt
 
 # Background
 # extra: sprite_id_background
-6	100	155	71000
+6	75	155	72000
+
+6	170	179	71000
+6	186	179	71000
+6	202	179	71000
 
 # MARIO
-0	20	171
+0	40	171
 
 # BRICKS
 
@@ -30,7 +34,7 @@ background.txt
 4	180	120
 
 #Goomba
-2	60	150
+2	300	150
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end

@@ -15,5 +15,6 @@ public:
 	}
 	void Render();
 	void Update(DWORD dt) {}
+	int IsBlocking() { return 0; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
