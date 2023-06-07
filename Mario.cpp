@@ -8,6 +8,7 @@
 #include "Koopas.h"
 #include "Coin.h"
 #include "Portal.h"
+#include "Platform.h"
 
 #include "Collision.h"
 
@@ -43,9 +44,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
-	{
+	else if (e->nx != 0 && e->obj->IsBlocking()){
 		vx = 0;
 	}
 

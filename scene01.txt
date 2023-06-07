@@ -12,7 +12,7 @@ background.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 5 = Platform, 6 = Background
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas, 4 = Coin, 5 = Platform, 6 = Background
 # See OBJECT_TYPE constants in AssetIDs.h
 
 
@@ -27,32 +27,41 @@ background.txt
 ## CLOUD WITH EYES
 6	145	65	0	1	55000
 ##BOXS
+# BLUE BOX
+5	305	118	12	15	5	84000	85000	86000	2
+
+6	332	121	0	1	80100
+6	332	131	11	6	80200	2
+6	332	188	0	1	80300
 
 # PINK BOX
 5	270	150	12	16	3	81000	82000	83000	2
 
-# BOX SHADOW
 6	299	153	0	1	80100
 6	299	163	11	2	80200	2
 6	299	185	0	1	80300
-
 # MARIO
 0	40	171
 
 # BRICKS
 
 #COIN
+4	100	120
+4	120	120
+4	140	120
+4	160	120
+4	180	120
 
 #Goomba
 
 #Koopas
-3	100	150	0	1	100000
+3	100	150	
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
 ##CLOUDS
 
 ##GROUNDS
-5	5	193	16	15	40	61000	62000	63000
+5	5	193	16	13	40	61000	62000	63000
 
 #Portal 

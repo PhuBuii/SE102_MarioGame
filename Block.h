@@ -4,14 +4,14 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define ID_ANI_BRICK 10000
+#define ID_ANI_BLOCK 10000
 #define BRICK_WIDTH 16
 #define BRICK_BBOX_WIDTH 16
 #define BRICK_BBOX_HEIGHT 16
 
 class CBlock : public CGameObject {
 private:
-
+	int width, height, spriteId, animationId;
 public:
 	CBlock(float x, float y) : CGameObject(x, y) {}
 	void Render();
