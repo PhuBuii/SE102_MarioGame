@@ -15,16 +15,15 @@ koopas.txt
 
 
 # Background
-# extra: sprite_id_background
+# extra: cell_width	length	sprite_id_background
+
 ## BUSH
-6	75	155	72000
+6	75	155	0	1	72000
 
-6	165	179	71000
-6	181	179	71000
-6	197	179	71000
+6	165	179	16	3	71000
 
-## CLOUD
-6	180	45	55000
+## CLOUD WITH EYES
+6	145	65	0	1	55000
 
 # MARIO
 0	40	171

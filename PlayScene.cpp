@@ -143,8 +143,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_BACKGROUND:
 	{
-		int sprite_background = atoi(tokens[3].c_str());
-		obj = new CBackground(x, y, sprite_background);
+		int cell_width = atoi(tokens[3].c_str());
+		int length = atoi(tokens[4].c_str());
+		int sprite_background = atoi(tokens[5].c_str());
+		obj = new CBackground(x, y, cell_width, length, sprite_background);
 		break;
 	}
 

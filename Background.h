@@ -8,9 +8,11 @@
 
 class CBackground : public CGameObject {
 private:
-	int spriteIdBackground;
+	int cellWidth, length, spriteIdBackground;
 public:
-	CBackground(float x, float y, int spriteIdBackground) : CGameObject(x, y) {
+	CBackground(float x, float y, int cellWidth, int length, int spriteIdBackground) : CGameObject(x, y) {
+		this->cellWidth = cellWidth;
+		this->length = length;
 		this->spriteIdBackground = spriteIdBackground;
 	}
 	void Render();
