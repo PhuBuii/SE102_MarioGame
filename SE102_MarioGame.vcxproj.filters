@@ -193,6 +193,12 @@
     <Image Include="textures\enemies.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="textures\enemies_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\enemies_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt">

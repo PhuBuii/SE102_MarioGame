@@ -4,9 +4,10 @@ mario.txt
 brick.txt
 coin.txt
 goomba.txt
-ground.txt
-background.txt
 koopas.txt
+ground.txt
+cloud.txt
+background.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -31,21 +32,17 @@ koopas.txt
 # BRICKS
 
 #COIN
-4	100	120
-4	120	120
-4	140	120
-4	160	120
-4	180	120
 
 #Goomba
-2	300	150
+
 #Koopas
-3	200	150
+3	100	150	0	1	100000
+
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end
+##CLOUDS
 
 ##GROUNDS
 5	5	193	16	15	40	61000	62000	63000
 
 #Portal 
-

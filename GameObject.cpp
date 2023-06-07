@@ -15,6 +15,7 @@ CGameObject::CGameObject()
 	nx = 1;	
 	state = -1;
 	isDeleted = false;
+	isSolid = false;
 }
 
 void CGameObject::RenderBoundingBox()
