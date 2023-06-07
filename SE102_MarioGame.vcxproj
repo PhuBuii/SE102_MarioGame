@@ -136,6 +136,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="AssetIDs.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -197,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="background.txt" />
+    <Text Include="box.txt" />
     <Text Include="brick.txt" />
     <Text Include="cloud.txt" />
     <Text Include="coin.txt" />

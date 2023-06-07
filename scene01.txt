@@ -6,6 +6,7 @@ coin.txt
 goomba.txt
 koopas.txt
 ground.txt
+box.txt
 cloud.txt
 background.txt
 #
@@ -25,6 +26,15 @@ background.txt
 
 ## CLOUD WITH EYES
 6	145	65	0	1	55000
+##BOXS
+
+# PINK BOX
+5	270	150	12	16	3	81000	82000	83000	2
+
+# BOX SHADOW
+6	299	153	0	1	80100
+6	299	163	11	2	80200	2
+6	299	185	0	1	80300
 
 # MARIO
 0	40	171
@@ -39,7 +49,7 @@ background.txt
 3	100	150	0	1	100000
 
 #Platform
-#type	x	y	width	height	length	id_begin	id_middle	id_end
+#type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
 ##CLOUDS
 
 ##GROUNDS

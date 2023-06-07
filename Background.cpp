@@ -7,12 +7,24 @@ void CBackground::Render()
 	// Draw only 1 object
 	if (this->length == 1) return;
 
-	int xx = x + this->cellWidth;
+	// Draw LEFT TO RIGHT
+	if (this->drawDirection == 1) {
 
-	for (int i = 1; i < this->length; i++)
-	{
-		s->Get(this->spriteIdBackground)->Draw(xx, y);
-		xx += this->cellWidth;
+		int xx = x + this->cell;
+
+		for (int i = 1; i < this->length; i++)
+		{
+			s->Get(this->spriteIdBackground)->Draw(xx, y);
+			xx += this->cell;
+		}
+	} // DRAW TOP TO BOTTOM
+	else {
+		int yy = y + this->cell;
+		for (int i = 1; i < this->length; i++)
+		{
+			s->Get(this->spriteIdBackground)->Draw(x, yy);
+			yy += this->cell;
+		}
 	}
 }
 

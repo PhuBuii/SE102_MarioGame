@@ -1,0 +1,17 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+
+
+# PINK BOX
+81000	151	97	200	114	21
+82000	151	114	200	131	21
+83000	151	131	200	148	21
+
+# BLUE BOX
+84000	970	136	1019	153	23
+85000	970	153	1019	170	23
+86000	970	170	1019	187	23
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
