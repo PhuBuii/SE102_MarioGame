@@ -9,6 +9,7 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "Platform.h"
+#include "QuestionBlock.h"
 
 #include "Collision.h"
 
@@ -54,6 +55,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBlock*>(e->obj))
+		OnCollisionWithQuestionBlock(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -92,8 +95,11 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
-	coin++;
+	int coin_state = e->obj->GetState();
+	if (coin_state == COIN_NORMAL_STATE) {
+		e->obj->Delete();
+		coin++;
+	}
 }
 
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -102,6 +108,14 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
+void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
+	CQuestionBlock* qb = (CQuestionBlock*)e->obj;
+	if (e->ny > 0) {
+		qb->SetState(EMPTY_BLOCK_STATE);
+
+		coin++;
+	}
+}
 //
 // Get animation ID for small Mario
 //

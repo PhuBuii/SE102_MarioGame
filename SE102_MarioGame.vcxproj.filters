@@ -93,7 +93,7 @@
     <ClInclude Include="Koopas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Block.h">
+    <ClInclude Include="QuestionBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -164,7 +164,7 @@
     <ClCompile Include="Koopas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
+    <ClCompile Include="QuestionBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -244,6 +244,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="box.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="qblock.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

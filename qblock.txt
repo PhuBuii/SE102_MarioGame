@@ -1,0 +1,16 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# Questions block
+90001	300	117	317	134	20
+90002	318	117	335	134	20
+90003	336	117	353	134	20
+90004	354	117	371	134	20
+
+# EMPTY BLOCK
+91000	372	117	389	134	20
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+# Question block State
+12000	90001	100	90002	100	90003	100	90004	100
+13000	91000	100
