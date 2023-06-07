@@ -144,6 +144,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Koopas.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -198,6 +200,7 @@
     <Text Include="coin.txt" />
     <Text Include="goomba.txt" />
     <Text Include="ground.txt" />
+    <Text Include="koopas.txt" />
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
     <Text Include="scene0005.txt" />

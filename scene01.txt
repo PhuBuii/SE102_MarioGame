@@ -6,6 +6,7 @@ coin.txt
 goomba.txt
 ground.txt
 background.txt
+koopas.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -39,7 +40,8 @@ background.txt
 
 #Goomba
 2	300	150
-
+#Koopas
+3	200	150
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end
 
