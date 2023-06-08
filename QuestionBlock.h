@@ -20,12 +20,16 @@
 #define QBLOCK_BBOX_WIDTH 16
 #define QBLOCK_BBOX_HEIGHT 16
 
+#define QBLOCK_TYPE_COIN 1
+#define QBLOCK_TYPE_POWERUP 2
+
 class CQuestionBlock : public CGameObject {
 private:
 	CCoin* coin;
 	ULONGLONG up_start;
+	int type_block;
 public:
-	CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects);
+	CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, int type_block);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);

@@ -9,7 +9,9 @@ ground.txt
 box.txt
 cloud.txt
 background.txt
+powerup.txt
 qblock.txt
+90003 336 117 352 133 20
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -47,11 +49,14 @@ qblock.txt
 0	40	171
 
 # QUESTIONS BLOCK
-7	180	135
-7	196	135
+7	180	135	1
+7	196	135	1
 
-7	228	87
-7	244	87
+7	228	87	1
+7	244	87	2
+
+# POWERUP
+8	244	60	
 
 # BRICKS
 

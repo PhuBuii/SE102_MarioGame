@@ -1,18 +1,28 @@
 #include "QuestionBlock.h"
 
-CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects) : CGameObject(x, y) {
+CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, int type_block) : CGameObject(x, y) {
 	up_start = -1;
+	this->type_block = type_block;
 	CGameObject::SetState(QUESTION_BLOCK_STATE);
-	coin = new CCoin(x, y - 20);
-	coin->SetState(COIN_HIDDEN_STATE);
-	objects.push_back(coin);
+	switch (type_block) {
+	case QBLOCK_TYPE_COIN:
+		coin = new CCoin(x, y - 20);
+		coin->SetState(COIN_HIDDEN_STATE);
+		objects.push_back(coin);
+		break;
+	case QBLOCK_TYPE_POWERUP:
+		break;
+	}
 }
+
 void CQuestionBlock::SetState(int state) {
 	int old_state = this->state;
 	CGameObject::SetState(state);
 
 	if (old_state == QUESTION_BLOCK_STATE && state == EMPTY_BLOCK_STATE) {
-		coin->SetState(COIN_UP_STATE);
+		if (type_block == QBLOCK_TYPE_COIN) {
+			coin->SetState(COIN_UP_STATE);
+		}
 		y -= BLOCK_UP_DISTANCE;
 		up_start = GetTickCount64();
 	}

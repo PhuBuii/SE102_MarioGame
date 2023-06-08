@@ -149,6 +149,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="QuestionBlock.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -208,6 +210,7 @@
     <Text Include="koopas.txt" />
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
+    <Text Include="powerup.txt" />
     <Text Include="qblock.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
