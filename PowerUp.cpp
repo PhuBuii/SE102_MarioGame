@@ -3,6 +3,7 @@
 CPowerUp::CPowerUp(float x, float y) : CGameObject(x, y) {
 	this->ax = 0;
 	this->ay = MUSHROOM_GRAVITY;
+	y_target = -1;
 	SetState(MUSHROOM_WALKING_STATE);
 }
 
@@ -16,8 +17,13 @@ void CPowerUp::GetBoundingBox(float& left, float& top, float& right, float& bott
 
 void CPowerUp::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	if (state == MUSHROOM_WALKING_STATE) {
+		x += vx * dt;
+		y += vy * dt;
+	}
+	else if (state == MUSHROOM_UP_STATE) {
+		y += vy * dt;
+	}
 };
 
 void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -37,8 +43,15 @@ void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += ay * dt;
-	vx += ax * dt;
+	if (state != POWER_UP_HIDDEN_STATE) {
+		vy += ay * dt;
+		vx += ax * dt;
+	}
+
+	if (y_target != -1 && state == MUSHROOM_UP_STATE && y <= y_target) {
+		SetState(MUSHROOM_WALKING_STATE);
+	}
+
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -49,7 +62,9 @@ void CPowerUp::Render()
 {
 	int aniId = ID_ANI_MUSHROOM;
 
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	if (state != POWER_UP_HIDDEN_STATE) {
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	}
 	RenderBoundingBox();
 }
 
@@ -61,6 +76,13 @@ void CPowerUp::SetState(int state)
 	{
 	case MUSHROOM_WALKING_STATE:
 		vx = -MUSHROOM_WALKING_SPEED;
+		ay = MUSHROOM_GRAVITY;
+		break;
+	case MUSHROOM_UP_STATE:
+		ay = 0;
+		vx = 0;
+		vy = -MUSHROOM_UP_SPEED;
+		y_target = y - 14;
 		break;
 	}
 }

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Coin.h"
+#include "PowerUp.h"
 
 #include "Animations.h"
 
@@ -26,6 +27,7 @@
 class CQuestionBlock : public CGameObject {
 private:
 	CCoin* coin;
+	CPowerUp* pu;
 	ULONGLONG up_start;
 	int type_block;
 public:
@@ -34,4 +36,5 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);
+	int GetTypeBlock() { return type_block; }
 };

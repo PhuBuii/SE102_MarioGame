@@ -4,6 +4,8 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 	up_start = -1;
 	this->type_block = type_block;
 	CGameObject::SetState(QUESTION_BLOCK_STATE);
+	coin = NULL;
+	pu = NULL;
 	switch (type_block) {
 	case QBLOCK_TYPE_COIN:
 		coin = new CCoin(x, y - 20);
@@ -11,7 +13,11 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		objects.push_back(coin);
 		break;
 	case QBLOCK_TYPE_POWERUP:
+		pu = new CPowerUp(x - 1.15f, y);
+		pu->SetState(POWER_UP_HIDDEN_STATE);
+		objects.push_back(pu);
 		break;
+
 	}
 }
 
@@ -23,8 +29,12 @@ void CQuestionBlock::SetState(int state) {
 		if (type_block == QBLOCK_TYPE_COIN) {
 			coin->SetState(COIN_UP_STATE);
 		}
+		else if (type_block == QBLOCK_TYPE_POWERUP) {
+			pu->SetState(MUSHROOM_UP_STATE);
+		}
 		y -= BLOCK_UP_DISTANCE;
 		up_start = GetTickCount64();
+
 	}
 
 }

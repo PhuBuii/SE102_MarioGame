@@ -56,7 +56,7 @@ qblock.txt
 7	244	87	2
 
 # POWERUP
-8	244	60	
+
 
 # BRICKS
 
