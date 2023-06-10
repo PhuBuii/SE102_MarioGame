@@ -18,6 +18,7 @@ protected:
 	float cellHeight;
 	int spriteIdBegin, spriteIdMiddle, spriteIdEnd;
 	int drawDirection;
+	bool canStanding;
 public:
 	CPlatform(float x, float y, float cell_width, float cell_height, int length, int sprite_id_begin, int sprite_id_middle, int sprite_id_end, int drawDirection);
 	void Render();
