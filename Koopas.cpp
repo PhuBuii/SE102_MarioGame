@@ -37,6 +37,14 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 
+	float left, right, top, bottom;
+
+	e->obj->GetBoundingBox(left, top, right, bottom);
+
+	// If go end then reverse
+	if ((x < left && vx < 0) || (x > right && vx > 0)) {
+		vx = -vx;
+	}
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -65,7 +73,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopas::Render()
 {
-	int aniId = ID_ANI_KOOPAS_WALKING;
+	int aniId = ID_ANI_KOOPAS_WALKING_LEFT;
 	if (state == KOOPAS_STATE_DIE)
 	{
 		aniId = ID_ANI_KOOPAS_DIE;
