@@ -11,6 +11,7 @@ cloud.txt
 background.txt
 powerup.txt
 qblock.txt
+pipe.txt
 90003 336 117 352 133 20
 #
 [OBJECTS]
@@ -55,7 +56,8 @@ qblock.txt
 7	228	87	1
 7	244	87	2
 
-# POWERUP
+# Pipe
+9	370	163
 
 
 # BRICKS

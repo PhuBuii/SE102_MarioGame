@@ -99,6 +99,9 @@
     <ClInclude Include="PowerUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -171,6 +174,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PowerUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -256,6 +262,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="powerup.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="pipe.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

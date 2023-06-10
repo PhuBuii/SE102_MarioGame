@@ -12,8 +12,8 @@
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
 
-#define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_JUMP_SPEED_Y		0.6f
+#define MARIO_JUMP_RUN_SPEED_Y	0.7f
 
 #define MARIO_GRAVITY			0.002f
 
@@ -60,6 +60,9 @@
 #define ID_ANI_MARIO_BRACE_LEFT 1001
 
 #define ID_ANI_MARIO_DIE 999
+
+#define ID_ANI_MARIO_BIG_TRANSFORM_TO_SMALL_LEFT	1011
+#define ID_ANI_MARIO_BIG_TRANSFORM_TO_SMALL_RIGHT	1021
 
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
@@ -119,6 +122,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isTransform;
 	BOOLEAN isOnPlatform;
+	BOOLEAN isEnemy;
 	int coin;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -139,7 +143,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
 
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;

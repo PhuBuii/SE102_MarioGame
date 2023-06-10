@@ -29,12 +29,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isTransform = false;
 				level = MARIO_LEVEL_BIG;
 			}
+			else if (level == MARIO_LEVEL_BIG) {
+				isTransform = false;
+				level = MARIO_LEVEL_SMALL;
+			}
 		}
 		untouchable_start = 0;
 		untouchable = 0;
 	}
 	else if (isTransform) {
-		this->SetState(MARIO_STATE_TRANSFORM);
+			this->SetState(MARIO_STATE_TRANSFORM);
 	}
 
 	isOnPlatform = false;
@@ -96,8 +100,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
-					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
+					isTransform = true;
+					this->SetState(MARIO_STATE_TRANSFORM);
+					isEnemy = true;
 				}
 				else
 				{
@@ -129,8 +135,10 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
-					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
+					isTransform = true;
+					isEnemy = true;
+					this->SetState(MARIO_STATE_TRANSFORM);
 				}
 				else
 				{
@@ -182,7 +190,10 @@ int CMario::GetAniIdSmall()
 {
 	int aniId = -1;
 	if (this->state == MARIO_STATE_TRANSFORM) {
-		aniId = ID_ANI_MARIO_SMALL_TRANSFORM_TO_BIG_RIGHT;
+		if (nx > 0)
+			aniId = ID_ANI_MARIO_SMALL_TRANSFORM_TO_BIG_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_SMALL_TRANSFORM_TO_BIG_LEFT;
 	}
 	else if (!isOnPlatform)
 	{
@@ -248,7 +259,13 @@ int CMario::GetAniIdSmall()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
-	if (!isOnPlatform)
+	if (this->state == MARIO_STATE_TRANSFORM) {
+		if (nx > 0)
+			aniId = ID_ANI_MARIO_BIG_TRANSFORM_TO_SMALL_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_BIG_TRANSFORM_TO_SMALL_LEFT;
+	}
+	else if (!isOnPlatform)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
@@ -439,6 +456,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CMario::SetLevel(int l)
 {
+	isTransform = false;
 	// Adjust position to avoid falling off platform
 	if (this->level == MARIO_LEVEL_SMALL && isTransform == false)
 	{
@@ -449,5 +467,7 @@ void CMario::SetLevel(int l)
 	}
 	if (!isTransform) {
 		level = l;
+		this->SetState(MARIO_STATE_TRANSFORM);
+		isTransform = true;
 	}
 }

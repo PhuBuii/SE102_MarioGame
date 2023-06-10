@@ -12,6 +12,7 @@
 #include "Background.h"
 #include "QuestionBlock.h"
 #include "PowerUp.h"
+#include "Pipe.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -135,7 +136,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPowerUp(x, y);
 		break;
 	}
-
+	case OBJECT_TYPE_PIPE: obj = new CPipe(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 
