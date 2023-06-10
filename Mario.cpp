@@ -38,7 +38,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 	else if (isTransform) {
-			this->SetState(MARIO_STATE_TRANSFORM);
+		this->SetState(MARIO_STATE_TRANSFORM);
 	}
 
 	isOnPlatform = false;
@@ -103,7 +103,6 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					StartUntouchable();
 					isTransform = true;
 					this->SetState(MARIO_STATE_TRANSFORM);
-					isEnemy = true;
 				}
 				else
 				{
@@ -137,7 +136,6 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				{
 					StartUntouchable();
 					isTransform = true;
-					isEnemy = true;
 					this->SetState(MARIO_STATE_TRANSFORM);
 				}
 				else
@@ -456,8 +454,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CMario::SetLevel(int l)
 {
-	isTransform = false;
-	// Adjust position to avoid falling off platform
+	// Adjus1t position to avoid falling off platform
 	if (this->level == MARIO_LEVEL_SMALL && isTransform == false)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
@@ -467,7 +464,5 @@ void CMario::SetLevel(int l)
 	}
 	if (!isTransform) {
 		level = l;
-		this->SetState(MARIO_STATE_TRANSFORM);
-		isTransform = true;
 	}
 }
