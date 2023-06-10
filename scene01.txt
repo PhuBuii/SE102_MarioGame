@@ -30,8 +30,8 @@ pipe.txt
 
 ## CLOUD WITH EYES
 6	145	65	0	1	55000
+
 ##BOXS
-#type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
 
 # WHITE BOX
 5	546	83	16	17	4	89300	89310	89320
@@ -52,6 +52,7 @@ pipe.txt
 5	275	148	16	17	3	85000	85100	85200
 5	275	164	16	17	3	85000	85100	85200
 5	275	178	16	17	3	86000	86100	86200
+
 
 6	318	121	0	1	80100
 6	318	131	11	6	80200	2
@@ -92,9 +93,9 @@ pipe.txt
 6	638	177	12	1	80200	2
 6	638	184	0	1	80300
 
-
 # MARIO
 0	40	171
+
 
 # QUESTIONS BLOCK
 7	180	135	1
@@ -105,24 +106,31 @@ pipe.txt
 
 7	450	103	1
 
+
+# POWERUP
+
 # Pipe
 9	370	163
 
-
-# BRICKS
-
 #COIN
 
-#Goomba
 
-#Koopas
-3	100	150	
+#Goomba
+2	120	175
+
+#Koopa
+3	560	141
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
 ##CLOUDS
 
+
+
 ##GROUNDS
-5	5	193	16	13	41	61000	62000	63000
+5	5	194	16	14	41	61000	62000	63000
+
+5	660	178	16	14	20	61000	62000	63000
+5	660	195	16	14	20	64000	65000	66000
 
 #Portal 

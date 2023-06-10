@@ -37,6 +37,9 @@ CPlatform::CPlatform(float x, float y,
 		canStanding = true;
 		this->SetSolid(true);
 		break;
+	case(ID_SPRITE_GROUND_UNDER_BEGIN):
+		canStanding = true;
+		break;
 	case(ID_SPRITE_BOX_WHITE_BEGIN):
 		canStanding = true;
 		this->SetSolid(true);
