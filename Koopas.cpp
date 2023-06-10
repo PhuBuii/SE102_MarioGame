@@ -12,17 +12,23 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 {
 	switch (state)
 	{
-	case KOOPAS_STATE_DIE:
-		left = x - KOOPAS_BBOX_WIDTH / 2;
-		top = y - KOOPAS_BBOX_HEIGHT_DIE / 2;
-		right = left + KOOPAS_BBOX_WIDTH;
-		bottom = top + KOOPAS_BBOX_HEIGHT_DIE;
-		break;
 	case KOOPAS_STATE_WALKING:
 		left = x - KOOPAS_BBOX_WIDTH / 2;
 		top = y - KOOPAS_BBOX_HEIGHT / 2;
 		right = left + KOOPAS_BBOX_WIDTH;
 		bottom = top + KOOPAS_BBOX_HEIGHT;
+		break;
+	case KOOPAS_STATE_SHELL_IDLE:
+		left = x - KOOPAS_BBOX_WIDTH / 2;
+		top = y - KOOPAS_BBOX_HEIGHT_SHELL / 2;
+		right = left + KOOPAS_BBOX_WIDTH;
+		bottom = top + KOOPAS_BBOX_HEIGHT_SHELL;
+		break;
+	case KOOPAS_STATE_SHELL_ROTATE:
+		left = x - KOOPAS_BBOX_WIDTH / 2;
+		top = y - KOOPAS_BBOX_HEIGHT_SHELL / 2;
+		right = left + KOOPAS_BBOX_WIDTH;
+		bottom = top + KOOPAS_BBOX_HEIGHT_SHELL;
 		break;
 	}
 }
@@ -63,12 +69,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > KOOPAS_DIE_TIMEOUT))
-	{
-		isDeleted = true;
-		return;
-	}
-
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -84,8 +84,11 @@ void CKoopas::Render()
 		else
 			aniId = ID_ANI_KOOPAS_WALKING_RIGHT;
 		break;
-	case KOOPAS_STATE_DIE:
-		aniId = ID_ANI_KOOPAS_DIE;
+	case KOOPAS_STATE_SHELL_IDLE:
+		aniId = ID_ANI_KOOPAS_SHELL_IDLE;
+		break;
+	case KOOPAS_STATE_SHELL_ROTATE:
+		aniId = ID_ANI_KOOPAS_SHELL_ROTATE;
 		break;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -97,15 +100,14 @@ void CKoopas::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case KOOPAS_STATE_DIE:
-		die_start = GetTickCount64();
-		y += (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE) / 2;
-		vx = 0;
-		vy = 0;
-		ay = 0;
-		break;
 	case KOOPAS_STATE_WALKING:
 		vx = -KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_SHELL_IDLE:
+		vx = 0;
+		break;
+	case KOOPAS_STATE_SHELL_ROTATE:
+		vx = -KOOPAS_ROTATE_SPEED;
 		break;
 	}
 }
