@@ -4,4 +4,4 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
-10000	20001	1000
+2000	20001	1000
