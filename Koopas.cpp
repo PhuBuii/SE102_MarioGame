@@ -39,6 +39,13 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = left + KOOPAS_BBOX_WIDTH;
 		bottom = top + KOOPAS_BBOX_HEIGHT_SHELL_TRANSFORM;
 		break;
+	case KOOPAS_STATE_DIE:
+		left = x - KOOPAS_BBOX_WIDTH / 2;
+		top = y - KOOPAS_BBOX_HEIGHT_SHELL / 2;
+		right = left + KOOPAS_BBOX_WIDTH;
+		bottom = top + KOOPAS_BBOX_HEIGHT_SHELL;
+		break;
+
 	}
 }
 
@@ -50,20 +57,32 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopas*>(e->obj)) return;
-
 	float left, right, top, bottom;
 
 	e->obj->GetBoundingBox(left, top, right, bottom);
-
-	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
+	if (dynamic_cast<CKoopas*>(e->obj)) {
+		CKoopas* kp = (CKoopas*)e->obj;
+		if (state == KOOPAS_STATE_SHELL_ROTATE) {
+			kp->SetState(KOOPAS_STATE_DIE);
+		}
+	}
+	else if (dynamic_cast<CGoomba*>(e->obj)) {
+		CGoomba* gb = (CGoomba*)(e->obj);
+			if (state == KOOPAS_STATE_SHELL_ROTATE) {
+				if (gb->GetState() != GOOMBA_STATE_DIE)
+				{
+					gb->SetState(GOOMBA_STATE_DIE);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+			}
+	}
+	else if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			qb->SetState(EMPTY_BLOCK_STATE);
 		}
 	}
-
+	if (!e->obj->IsBlocking()) return;
 	// If go end then reverse in walking state
 	if (state == KOOPAS_STATE_WALKING) {
 		if ((x < left && vx < 0) || (x > right && vx > 0)) {
@@ -97,8 +116,11 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = 0;
 		vy = 0;
 	}
-
-
+	else if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
+	{
+		isDeleted = true;
+		return;
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -121,6 +143,9 @@ int CKoopas::GetAni() {
 		break;
 	case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
 		aniId = ID_ANI_KOOPAS_SHELL_TRANSFORM_WALKING;
+		break;
+	case KOOPAS_STATE_DIE:
+		aniId = ID_ANI_KOOPAS_SHELL_IDLE;
 		break;
 	}
 	return aniId;
@@ -162,6 +187,13 @@ void CKoopas::SetState(int state)
 		shell_transform_start = GetTickCount64();
 		vx = -KOOPAS_TRANSFORM_SPEED;
 		vy = 0;
+		break;
+	case KOOPAS_STATE_DIE:
+		die_start = GetTickCount64();
+		y += (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_SHELL) / 2;
+		vx = 0;
+		vy = 0;
+		ay = 0;
 		break;
 	}
 	CGameObject::SetState(state);

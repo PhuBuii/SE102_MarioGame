@@ -21,6 +21,7 @@
 #define KOOPAS_STATE_SHELL_IDLE	200
 #define KOOPAS_STATE_SHELL_ROTATE	300
 #define KOOPAS_STATE_SHELL_TRANSFORM_WALKING	400
+#define KOOPAS_STATE_DIE 500
 
 #define ID_ANI_KOOPAS_WALKING_LEFT 10000
 #define ID_ANI_KOOPAS_WALKING_RIGHT 10010
@@ -37,6 +38,7 @@ protected:
 
 	ULONGLONG shell_wait_rotate_start;
 	ULONGLONG shell_transform_start;
+	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

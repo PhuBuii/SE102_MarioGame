@@ -125,7 +125,6 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 				koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
 			}
 			else if (koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
-				this->SetState(MARIO_STATE_KICK);
 				koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
 			}
 		}

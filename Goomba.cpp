@@ -1,4 +1,6 @@
 #include "Goomba.h"
+#include "Koopas.h"
+#include "debug.h"
 
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
@@ -34,9 +36,12 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return; 
+	
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
-
+	if (dynamic_cast<CKoopas*>(e->obj)) {
+		DebugOut(L"Goombas has Collision with Koopas");
+	}
+	if (!e->obj->IsBlocking()) return; 
 	if (e->ny != 0 )
 	{
 		vy = 0;
