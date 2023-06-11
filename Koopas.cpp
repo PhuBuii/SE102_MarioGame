@@ -72,7 +72,6 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 				if (gb->GetState() != GOOMBA_STATE_DIE)
 				{
 					gb->SetState(GOOMBA_STATE_DIE);
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 			}
 	}
@@ -192,7 +191,7 @@ void CKoopas::SetState(int state)
 		die_start = GetTickCount64();
 		y += (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_SHELL) / 2;
 		vx = 0;
-		vy = 0;
+		vy = 0.06f;
 		ay = 0;
 		break;
 	}

@@ -258,6 +258,7 @@ pipe.txt
 
 #Koopa
 3	560	140
+3	560	163
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
