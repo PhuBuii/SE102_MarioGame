@@ -125,6 +125,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 				koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
 			}
 			else if (koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
+				this->SetState(MARIO_STATE_KICK);
 				koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
 			}
 		}
@@ -133,6 +134,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 		}
 	} // Kick shell
 	else if (e->nx != 0 && koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
+		this->SetState(MARIO_STATE_KICK);
 		float vx, vy;
 		koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
 		koopas->GetSpeed(vx, vy);
@@ -143,7 +145,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 			if (vx > 0) koopas->SetSpeed(-vx, vy);
 		}
 	}
-	else  // hit by koopa
+	else  // hit by koopas
 	{
 		if (untouchable == 0)
 		{

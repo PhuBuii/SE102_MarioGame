@@ -94,7 +94,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y -= (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_SHELL_TRANSFORM) / 2;
 	}
 	else if (state == KOOPAS_STATE_SHELL_TRANSFORM_WALKING) {
-		vx = -vx;
+		vx = 0;
+		vy = 0;
 	}
 
 
@@ -160,6 +161,7 @@ void CKoopas::SetState(int state)
 		shell_wait_rotate_start = -1;
 		shell_transform_start = GetTickCount64();
 		vx = -KOOPAS_TRANSFORM_SPEED;
+		vy = 0;
 		break;
 	}
 	CGameObject::SetState(state);
