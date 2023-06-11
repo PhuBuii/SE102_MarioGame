@@ -53,16 +53,16 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 
+	float left, right, top, bottom;
+
+	e->obj->GetBoundingBox(left, top, right, bottom);
+
 	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			qb->SetState(EMPTY_BLOCK_STATE);
 		}
 	}
-
-	float left, right, top, bottom;
-
-	e->obj->GetBoundingBox(left, top, right, bottom);
 
 	// If go end then reverse in walking state
 	if (state == KOOPAS_STATE_WALKING) {
@@ -135,7 +135,6 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
-	CGameObject::SetState(state);
 	switch (state)
 	{
 	case KOOPAS_STATE_WALKING:
@@ -144,10 +143,16 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_SHELL_IDLE:
+		if (this->state == KOOPAS_STATE_SHELL_ROTATE) {
+			y -= 2;
+		}
 		vx = 0;
 		shell_wait_rotate_start = GetTickCount64();
 		break;
 	case KOOPAS_STATE_SHELL_ROTATE:
+		if (this->state == KOOPAS_STATE_SHELL_IDLE) {
+			y -= 2;
+		}
 		shell_wait_rotate_start = -1;
 		vx = -KOOPAS_ROTATE_SPEED;
 		break;
@@ -157,4 +162,5 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_TRANSFORM_SPEED;
 		break;
 	}
+	CGameObject::SetState(state);
 }

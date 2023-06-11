@@ -115,17 +115,21 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-
 	// jump on top >> koopa transform to shell and deflect a bit 
-	if (e->ny < 0 && koopas->GetState() != KOOPAS_STATE_SHELL_ROTATE)
+	if (e->ny < 0)
 	{
-		if (koopas->GetState() != KOOPAS_STATE_SHELL_IDLE)
-		{
-			koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		if (koopas->GetState() != KOOPAS_STATE_SHELL_ROTATE) {
+			if (koopas->GetState() != KOOPAS_STATE_SHELL_IDLE)
+			{
+				koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
+			}
+			else if (koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
+				koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
+			}
 		}
-		else if (koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
-			koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
+		else {
+			koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
 		}
 	} // Kick shell
 	else if (e->nx != 0 && koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
