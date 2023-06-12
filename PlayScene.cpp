@@ -314,6 +314,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cx >= 2700) cx = 2700;
 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 

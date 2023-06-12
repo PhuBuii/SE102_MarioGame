@@ -16,6 +16,8 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (x<=10)	x = 10;
+	if (x>=3000) x=3000;
 	vy += ay * dt;
 	vx += ax * dt;
 
