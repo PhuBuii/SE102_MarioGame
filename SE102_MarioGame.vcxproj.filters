@@ -105,6 +105,9 @@
     <ClInclude Include="Pipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Piranha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -183,6 +186,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Pipe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Piranha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -277,6 +283,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="tigerbrick.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="plant.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
