@@ -94,3 +94,57 @@ void CGoomba::SetState(int state)
 			break;
 	}
 }
+
+void CParaGoomba::Render()
+{
+	int aniId = ID_ANI_PARAGOOMBA_WING_WALK;
+	if (state == GOOMBA_STATE_DIE)
+	{
+		aniId = ID_ANI_PARAGOOMBA_DIE;
+	}
+	else if (state == GOOMBA_STATE_WALKING) {
+		aniId = ID_ANI_PARAGOOMBA_WALKING;
+	}
+
+	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	/*RenderBoundingBox();*/
+}
+void CParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	CGoomba::GetBoundingBox(left, top, right, bottom);
+
+	if (state == PARAGOOMBA_STATE_WING_WALKING)
+	{
+		left = x - PARAGOOMBA_WINGWALKING_BBOX_WIDTH / 2;
+		top = y - PARAGOOMBA_WINGWALKING_BBOX_HEIGHT / 2;
+		right = left + PARAGOOMBA_WINGWALKING_BBOX_WIDTH;
+		bottom = top + PARAGOOMBA_WINGWALKING_BBOX_HEIGHT;
+	}
+
+}
+
+CParaGoomba::CParaGoomba(float x, float y) :CGoomba(x, y)
+{
+	SetState(PARAGOOMBA_STATE_WING_WALKING);
+}
+
+void CParaGoomba::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case GOOMBA_STATE_DIE:
+		die_start = GetTickCount64();
+		DebugOut(L"State die\n");
+		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
+		vx = 0;
+		vy = 0;
+		ay = 0;
+		break;
+	case PARAGOOMBA_STATE_WING_FLYING:
+	case GOOMBA_STATE_WALKING:
+	case PARAGOOMBA_STATE_WING_WALKING:
+		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	}
+}

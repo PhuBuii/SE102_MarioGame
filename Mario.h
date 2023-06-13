@@ -132,6 +132,7 @@ class CMario : public CGameObject
 	BOOLEAN isEnemy;
 	int coin;
 
+	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
