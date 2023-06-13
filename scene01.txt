@@ -178,7 +178,7 @@ plant.txt
 6	2279	160	11	3	80200	2
 6	2279	182	0	1	80300
 #Plant 
-11	1889	170
+11	1889	173
 # Pipe
 ##TYPE x,y,width,height,lenght,id_bgin,id_end
 9	360	148	18	15	3	111011	112012	
