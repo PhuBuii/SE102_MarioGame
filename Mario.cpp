@@ -146,15 +146,15 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
-		if (paragoomba->GetState() != GOOMBA_STATE_DIE)
+		if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
 		{
 			if (paragoomba->GetState() == PARAGOOMBA_STATE_WING_FLYING ||
 				paragoomba->GetState() == PARAGOOMBA_STATE_WING_WALKING) {
-				paragoomba->SetState(GOOMBA_STATE_WALKING);
+				paragoomba->SetState(PARAGOOMBA_STATE_NO_WING_WALKING);
 
 			}
 			else {
-				paragoomba->SetState(GOOMBA_STATE_DIE);
+				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
 			}
 
 
@@ -165,7 +165,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
+			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
