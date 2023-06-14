@@ -63,7 +63,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CKoopas*>(e->obj)) {
 		CKoopas* kp = (CKoopas*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
-			kp->SetState(KOOPAS_STATE_DIE);
+			kp->SetState(KOOPAS_HIT_BY_KOOPAS);
 		}
 	}
 	else if (dynamic_cast<CGoomba*>(e->obj)) {
@@ -120,6 +120,20 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		return;
 	}
+	if (state == KOOPAS_HIT_BY_KOOPAS)
+	{
+		if (GetTickCount64() - die_start > GOOMBA_BOUNCE_TIMEOUT) {
+			ay = KOOPAS_GRAVITY;
+		}
+		if (y > 500) {
+			isDeleted = true;
+			return;
+		}
+		else {
+			y += vy * dt;
+		}
+
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -146,6 +160,8 @@ int CKoopas::GetAni() {
 	case KOOPAS_STATE_DIE:
 		aniId = ID_ANI_KOOPAS_SHELL_IDLE;
 		break;
+	case KOOPAS_HIT_BY_KOOPAS:
+		aniId = ID_ANI_KOOPAS_HIT_BY_KOOPAS;
 	}
 	return aniId;
 }
@@ -193,6 +209,11 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0.06f;
 		ay = 0;
+		break;
+	case KOOPAS_HIT_BY_KOOPAS:
+		vx = 0;
+		ay = -KOOPAS_GRAVITY;
+		die_start = GetTickCount64();
 		break;
 	}
 	CGameObject::SetState(state);
