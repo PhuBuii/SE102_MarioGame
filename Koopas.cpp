@@ -71,7 +71,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (state == KOOPAS_STATE_SHELL_ROTATE) {
 				if (gb->GetState() != GOOMBA_STATE_DIE)
 				{
-					gb->SetState(GOOMBA_STATE_DIE);
+					gb->SetState(GOOMBA_HIT_BY_KOOPA);
 				}
 			}
 	}

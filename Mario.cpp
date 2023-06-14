@@ -109,6 +109,7 @@ void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
@@ -138,6 +139,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
 void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 {
 	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
@@ -146,15 +148,17 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
-		if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
+		if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			if (paragoomba->GetState() == PARAGOOMBA_STATE_WING_FLYING ||
 				paragoomba->GetState() == PARAGOOMBA_STATE_WING_WALKING) {
-				paragoomba->SetState(PARAGOOMBA_STATE_NO_WING_WALKING);
+				paragoomba->SetState(GOOMBA_STATE_WALKING);
+				y_koopa -= (e->t * e->dy + e->ny);
+				paragoomba->SetPosition(x_koopa, y_koopa);
 
 			}
 			else {
-				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+				paragoomba->SetState(GOOMBA_STATE_DIE);
 			}
 
 
@@ -165,7 +169,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
+			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
