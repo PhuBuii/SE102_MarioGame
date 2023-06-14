@@ -3,8 +3,8 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.05f
+#define GOOMBA_GRAVITY 0.001f
+#define GOOMBA_WALKING_SPEED 0.025f
 
 
 #define GOOMBA_BBOX_WIDTH 16
@@ -35,7 +35,10 @@
 #define PARAGOOMBA_STATE_WING_FLYING 410
 #define PARAGOOMBA_STATE_WING_WALKING 411
 
-#define PARAGOOMBA_FLYING_TIMEOUT 1000
+#define PARAGOOMBA_UP_SPEED 0.04f
+
+#define PARAGOOMBA_FLYING_TIMEOUT 600
+#define PARAGOOMBA_WAIT_TIMEOUT 200
 
 #define ID_ANI_PARAGOOMBA_WALKING 5100
 #define ID_ANI_PARAGOOMBA_DIE 5101
@@ -75,11 +78,23 @@ public:
 class CParaGoomba : public CGoomba
 {
 protected:
-	float y_old, x_old;
+	ULONGLONG fly_start, wait_start;
+	bool on_platform;
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	int IsCollidable() { return 1; };
+	int IsBlocking() { return 0; }
 public:
 	CParaGoomba(float x, float y);
 	virtual void SetState(int state);
+	void SetOnPlatform() {
+		on_platform = !on_platform;
+	};
+
+	void StartWaitTime() {
+		wait_start = GetTickCount64();
+	}
 
 };

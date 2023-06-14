@@ -68,12 +68,23 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (dynamic_cast<CGoomba*>(e->obj)) {
 		CGoomba* gb = (CGoomba*)(e->obj);
-			if (state == KOOPAS_STATE_SHELL_ROTATE) {
-				if (gb->GetState() != GOOMBA_STATE_DIE)
-				{
-					gb->SetState(GOOMBA_HIT_BY_KOOPA);
-				}
+		if (state == KOOPAS_STATE_SHELL_ROTATE) {
+			if (gb->GetState() != GOOMBA_STATE_DIE)
+			{
+				gb->SetState(GOOMBA_HIT_BY_KOOPA);
 			}
+		}
+	}
+	else if (dynamic_cast<CParaGoomba*>(e->obj)) {
+		CParaGoomba* paragoomba = (CParaGoomba*)(e->obj);
+		if (state == KOOPAS_STATE_SHELL_ROTATE) {
+			if (paragoomba->GetState() == PARAGOOMBA_STATE_WING_FLYING || paragoomba->GetState() == PARAGOOMBA_STATE_WING_WALKING) {
+				paragoomba->SetState(GOOMBA_STATE_WALKING);
+			}
+			else if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE) {
+				paragoomba->SetState(PARAGOOMBA_HIT_BY_KOOPA);
+			}
+		}
 	}
 	else if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;

@@ -132,9 +132,12 @@ void CParaGoomba::Render()
 	else if (state == GOOMBA_STATE_WALKING) {
 		aniId = ID_ANI_PARAGOOMBA_WALKING;
 	}
+	else if (state == PARAGOOMBA_STATE_WING_FLYING) {
+		aniId = ID_ANI_PARAGOOMBA_FLYING;
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	/*RenderBoundingBox();*/
+	RenderBoundingBox();
 }
 
 void CParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -148,13 +151,76 @@ void CParaGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 		right = left + PARAGOOMBA_WINGWALKING_BBOX_WIDTH;
 		bottom = top + PARAGOOMBA_WINGWALKING_BBOX_HEIGHT;
 	}
+	else if (state == PARAGOOMBA_STATE_WING_FLYING) {
+		left = x - PARAGOOMBA_FLYING_BBOX_WIDTH / 2;
+		top = y - PARAGOOMBA_FLYING_BBOX_HEIGHT / 2;
+		right = left + PARAGOOMBA_FLYING_BBOX_WIDTH;
+		bottom = top + PARAGOOMBA_FLYING_BBOX_HEIGHT;
+	}
 
+}
+
+void CParaGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+
+
+	if ((state == PARAGOOMBA_STATE_WING_FLYING) && (GetTickCount64() - fly_start > PARAGOOMBA_FLYING_TIMEOUT))
+	{
+		SetState(PARAGOOMBA_STATE_WING_WALKING);
+
+	}
+	if (on_platform) {
+
+		if (state == PARAGOOMBA_STATE_WING_WALKING && wait_start == -1) {
+			// START WAIT TIME			
+			this->StartWaitTime();
+
+		}
+	}
+	if ((state == PARAGOOMBA_STATE_WING_WALKING) && (GetTickCount64() - wait_start > PARAGOOMBA_WAIT_TIMEOUT) && on_platform) {
+
+		SetState(PARAGOOMBA_STATE_WING_FLYING);
+		on_platform = false;
+	}
+
+
+	CGoomba::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CParaGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (!e->obj->IsBlocking()) return;
+	if (dynamic_cast<CGoomba*>(e->obj)) return;
+
+	if (e->ny != 0)
+	{
+		if (state != GOOMBA_HIT_BY_KOOPA) {
+			vy = 0;
+			if (e->ny < 0) {
+				on_platform = true;
+			}
+
+		}
+
+	}
+	else if (e->nx != 0)
+	{
+		vx = -vx;
+	}
 }
 
 
 CParaGoomba::CParaGoomba(float x, float y) :CGoomba(x, y)
 {
+	wait_start = -1;
+	fly_start = -1;
+	vx = -GOOMBA_WALKING_SPEED;
+	ay = 0;
+	vy = 0;
+	on_platform = false;
 	SetState(PARAGOOMBA_STATE_WING_WALKING);
+
 }
 
 void CParaGoomba::SetState(int state)
@@ -170,12 +236,25 @@ void CParaGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case PARAGOOMBA_STATE_WING_FLYING:
-	case GOOMBA_STATE_WALKING:
+		vy = -PARAGOOMBA_UP_SPEED;
+		fly_start = GetTickCount64();
+		wait_start = -1;
+		ay = 0;
+		break;
 	case PARAGOOMBA_STATE_WING_WALKING:
+		/*ay = GOOMBA_GRAVITY;
+		vy = 0;*/
+		/*break;*/
+	case GOOMBA_STATE_WALKING:
+		ay = GOOMBA_GRAVITY;
+		vy = 0;
+		/*fly_start = -1;
+		wait_start = -1;*/
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_HIT_BY_KOOPA:
 		vx = 0;
+		vy = 0;
 		ay = -GOOMBA_GRAVITY;
 		bounce_start = GetTickCount64();
 		break;
