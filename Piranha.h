@@ -1,9 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Animation.h"
-#include "Animations.h"
-#include "Coin.h"
-#include "Brick.h"
 
 #define ID_ANI_PIRANHA 132011
 
@@ -81,6 +77,7 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void Render();
 	virtual void SetState(int state);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	/*void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void SetState(int state);*/
 };
