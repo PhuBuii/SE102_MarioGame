@@ -44,12 +44,12 @@ void CPiranha::SetState(int state)
 	switch (state)
 	{
 	case  PIRANHA_STATE_UP:
-		vy = -PIRANHA_SPEED;
+		vy = -speed;
 		wait_start = -1;
 		up_start = GetTickCount64();
 		break;
 	case  PIRANHA_STATE_DOWN:
-		vy = PIRANHA_SPEED;
+		vy = speed;
 		wait_start = -1;
 		up_start = GetTickCount64();
 		break;
@@ -59,4 +59,23 @@ void CPiranha::SetState(int state)
 		up_start = -1;
 		break;
 	}
+}
+
+
+void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
+{
+	l = x - VENUS_BBOX_WIDTH / 2;
+	t = y - VENUS_BBOX_HEIGHT / 2;
+	r = l + VENUS_BBOX_WIDTH;
+	b = t + VENUS_BBOX_HEIGHT;
+}
+
+void CVenusFireTrap::Render()
+{
+	CAnimations* animations = CAnimations::GetInstance();
+	animations->Get(ID_ANI_RED_VENUS_RISING)->Render(x, y);
+}
+void CVenusFireTrap::SetState(int state)
+{
+	CPiranha::SetState(state);
 }

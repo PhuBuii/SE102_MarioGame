@@ -81,8 +81,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (paragoomba->GetState() == PARAGOOMBA_STATE_WING_FLYING || paragoomba->GetState() == PARAGOOMBA_STATE_WING_WALKING) {
 				paragoomba->SetState(GOOMBA_STATE_WALKING);
 			}
-			else if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE) {
-				paragoomba->SetState(PARAGOOMBA_HIT_BY_KOOPA);
+			else if (paragoomba->GetState() != GOOMBA_STATE_WALKING) {
+				paragoomba->SetState(GOOMBA_HIT_BY_KOOPA);
 			}
 		}
 	}
