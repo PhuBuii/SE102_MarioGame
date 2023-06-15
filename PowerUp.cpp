@@ -1,4 +1,5 @@
 #include "PowerUp.h"
+#include "Mario.h"
 
 CPowerUp::CPowerUp(float x, float y) : CGameObject(x, y) {
 	this->ax = 0;
@@ -30,6 +31,17 @@ void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CPowerUp*>(e->obj)) return;
+
+	if (state == MUSHROOM_UP_STATE) return;
+
+	if (dynamic_cast<CMario*>(e->obj)) {
+		float m_x, m_y;// Mario x,y
+		e->obj->GetPosition(m_x, m_y);
+		if (x > m_x) {
+			power_up_direction = -power_up_direction;
+		}
+		return;
+	}
 
 	if (e->ny != 0)
 	{
@@ -75,7 +87,7 @@ void CPowerUp::SetState(int state)
 	switch (state)
 	{
 	case MUSHROOM_WALKING_STATE:
-		vx = -MUSHROOM_WALKING_SPEED;
+		vx = -MUSHROOM_WALKING_SPEED * power_up_direction;
 		ay = MUSHROOM_GRAVITY;
 		break;
 	case MUSHROOM_UP_STATE:

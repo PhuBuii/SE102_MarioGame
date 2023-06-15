@@ -13,7 +13,7 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		objects.push_back(coin);
 		break;
 	case QBLOCK_TYPE_POWERUP:
-		pu = new CPowerUp(x - 1.15f, y);
+		pu = new CPowerUp(x, y);
 		pu->SetState(POWER_UP_HIDDEN_STATE);
 		objects.push_back(pu);
 		break;
