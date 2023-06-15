@@ -17,6 +17,7 @@
 #include "Piranha.h"
 #include "debug.h"
 
+
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -291,11 +292,16 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 
+void CPlayScene::AddObject(CGameObject* obj) {
+	objects.push_back(obj);
+}
 void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
+	CGame* game = CGame::GetInstance();
 	vector<LPGAMEOBJECT> coObjects;
+	LPPLAYSCENE current_scene = (LPPLAYSCENE)game->GetCurrentScene();
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -310,6 +316,12 @@ void CPlayScene::Update(DWORD dt)
 		else if (dynamic_cast<CVenusFireTrap*>(objects[i])) {
 			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
 			venus->GetMarioPosition(x_mario, y_mario);
+			venus->GetPosition(venus_x, venus_y);
+			if (venus->GetState() == VENUS_STATE_FIRE && venus->IsFireBallAdded() == true) {
+				CGameObject* fireball = new CFireBall(venus_x, venus_y, x_mario, y_mario);
+				current_scene->AddObject(fireball);
+				DebugOut(L"add fireball\n");
+			}
 		}
 
 	}
@@ -321,7 +333,6 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame* game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
