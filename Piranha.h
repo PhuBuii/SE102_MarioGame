@@ -21,17 +21,19 @@
 #define ID_ANI_GREEN_VENUS_LOOK_UP_LEFT 133012
 #define ID_ANI_GREEN_VENUS_LOOK_DOWN_RIGHT 133013
 #define ID_ANI_GREEN_VENUS_LOOK_UP_RIGHT 133014
-#define ID_ANI_GREEN_VENUS_RISING 133015
+#define ID_ANI_GREEN_VENUS_RISING_LEFT 133012
+#define ID_ANI_GREEN_VENUS_RISING_RIGHT 133014
 
 #define ID_ANI_RED_VENUS_LOOK_DOWN_LEFT 131011
 #define ID_ANI_RED_VENUS_LOOK_UP_LEFT 131012
 #define ID_ANI_RED_VENUS_LOOK_DOWN_RIGHT 131013
 #define ID_ANI_RED_VENUS_LOOK_UP_RIGHT 131014
-#define ID_ANI_RED_VENUS_RISING 131015
+#define ID_ANI_RED_VENUS_RISING_LEFT 131011
+#define ID_ANI_RED_VENUS_RISING_RIGHT 131013
 
 #define VENUS_WIDTH 16
-#define VENUS_BBOX_WIDTH 16
-#define VENUS_BBOX_HEIGHT 32
+#define VENUS_BBOX_WIDTH 15
+#define VENUS_BBOX_HEIGHT 30
 
 #define VENUS_STATE_IDLE 103
 #define VENUS_STATE_FIRE 104
@@ -69,15 +71,20 @@ public:
 class CVenusFireTrap : public CPiranha {
 protected:
 	ULONGLONG idle_start;
+	float x_mario, y_mario;
 public:
 	CVenusFireTrap(float x, float y) : CPiranha(x, y) {
 		idle_start = -1;
 		speed = VENUS_SPEED;
+		x_mario = 0;
+		y_mario = 0;
 	};
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void Render();
-	virtual void SetState(int state);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	/*void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void SetState(int state);*/
+	virtual void SetState(int state);
+	void GetMarioPosition(float x, float y);
+	bool IsMarioOnLeft();
+	bool IsMarioHigher();
+
 };

@@ -15,6 +15,7 @@
 #include "Pipe.h"
 #include "TigerBrick.h"
 #include "Piranha.h"
+#include "debug.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -294,16 +295,23 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
-
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
+		if (dynamic_cast<CMario*>(objects[i])) {
+			CMario* mario = dynamic_cast<CMario*>(objects[i]);
+			mario->GetPosition(x_mario, y_mario);
+		}
+		else if (dynamic_cast<CVenusFireTrap*>(objects[i])) {
+			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
+			venus->GetMarioPosition(x_mario, y_mario);
+		}
+
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)

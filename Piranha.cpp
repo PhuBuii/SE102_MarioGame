@@ -1,4 +1,5 @@
 #include "Piranha.h"
+#include "Mario.h"
 
 void CPiranha::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -72,8 +73,32 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CVenusFireTrap::Render()
 {
+	int aniID = ID_ANI_RED_VENUS_RISING_LEFT;
+	if (IsMarioOnLeft())
+	aniID = ID_ANI_RED_VENUS_RISING_LEFT;
+	else
+	aniID = ID_ANI_RED_VENUS_RISING_RIGHT;
+	if (state == VENUS_STATE_IDLE) {
+		if (IsMarioHigher()) {
+			if (IsMarioOnLeft()) {
+				aniID = ID_ANI_RED_VENUS_LOOK_UP_LEFT;
+			}
+			else {
+				aniID = ID_ANI_RED_VENUS_LOOK_UP_RIGHT;
+			}
+		}
+		else {
+			if (IsMarioOnLeft()) {
+				aniID = ID_ANI_RED_VENUS_LOOK_DOWN_LEFT;
+			}
+			else {
+				aniID = ID_ANI_RED_VENUS_LOOK_DOWN_RIGHT;
+			}
+		}
+
+	}
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_RED_VENUS_RISING)->Render(x, y);
+	animations->Get(aniID)->Render(x, y);
 }
 void CVenusFireTrap::SetState(int state)
 {
@@ -99,4 +124,26 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	CPiranha::Update(dt, coObjects);
+}
+
+void CVenusFireTrap::GetMarioPosition(float x, float y)
+{
+	x_mario = x;
+	y_mario = y;
+}
+
+bool CVenusFireTrap::IsMarioOnLeft()
+{
+	if (x > x_mario) {
+		return true;
+	}
+	else
+		return false;
+}
+bool CVenusFireTrap::IsMarioHigher()
+{
+	if (y > y_mario)
+		return false;
+	else
+		return true;
 }
