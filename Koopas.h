@@ -13,7 +13,7 @@
 #define KOOPAS_BBOX_HEIGHT_SHELL_TRANSFORM 12
 
 
-#define KOOPAS_SHELL_WAIT_ROTATE_TIME_OUT 2000
+#define KOOPAS_SHELL_WAIT_ROTATE_TIME_OUT 3000
 #define KOOPAS_SHELL_TRANSFORM_WALKING_TIME_OUT	1000
 #define KOOPAS_SHELL_TRANSFORM_ROTATE_TIME_OUT 200
 
@@ -38,6 +38,9 @@ protected:
 	float ax;
 	float ay;
 
+	bool isOnHand;
+	float mario_x;
+	float mario_y;
 	ULONGLONG shell_wait_rotate_start;
 	ULONGLONG shell_transform_start;
 	ULONGLONG die_start;
@@ -56,5 +59,6 @@ protected:
 
 public:
 	CKoopas(float x, float y);
+	void SetOnHand(bool onHand) { this->isOnHand = onHand; }
 	virtual void SetState(int state);
 };

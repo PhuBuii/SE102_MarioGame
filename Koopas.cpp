@@ -7,6 +7,7 @@ CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = KOOPAS_GRAVITY;
+	isOnHand = false;
 	shell_wait_rotate_start = -1;
 	SetState(KOOPAS_STATE_WALKING);
 }
@@ -51,8 +52,10 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CKoopas::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
-	y += vy * dt;
+	if (!isOnHand) {
+		x += vx * dt;
+		y += vy * dt;
+	}
 };
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -207,6 +210,7 @@ void CKoopas::SetState(int state)
 		}
 		shell_wait_rotate_start = -1;
 		vx = -KOOPAS_ROTATE_SPEED;
+		ay = KOOPAS_GRAVITY;
 		break;
 	case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
 		shell_wait_rotate_start = -1;

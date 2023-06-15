@@ -37,11 +37,15 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void SetSolid(bool solid) { this->isSolid = solid; }
-	
+
+	void SetNx(int nx) { this->nx = nx; }
+
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	bool GetSolid() { return this->isSolid; }
 	int GetState() { return this->state; }
+
+	int	 GetNx() { return this->nx; }
 
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }

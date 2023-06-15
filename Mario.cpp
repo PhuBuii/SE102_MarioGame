@@ -22,6 +22,41 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (isHanding) {
+		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
+
+			dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
+
+			if (enemies->GetNx() != nx) {
+				enemies->SetNx(nx);
+
+			}
+			float direction = (nx >= 0) ? 1 : -1;
+			enemies->SetPosition(x + direction * MARIO_SMALL_BBOX_WIDTH / 2 + direction * KOOPAS_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
+			enemies->SetSpeed(vx, vy);
+		}
+		else {
+			enemies = NULL;
+		}
+	}
+	else {
+		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
+			dynamic_cast<CKoopas*>(enemies)->SetOnHand(false);
+			enemies->SetState(KOOPAS_STATE_SHELL_ROTATE);
+			kick_start = GetTickCount64();
+			SetState(MARIO_STATE_KICK);
+			enemies->SetState(KOOPAS_STATE_SHELL_ROTATE);
+			enemies->GetSpeed(vx, vy);
+			if (enemies->GetNx() < 0) {
+				if (vx < 0) enemies->SetSpeed(-vx, vy);
+			}
+			else if (enemies->GetNx() > 0) {
+				if (vx > 0) enemies->SetSpeed(-vx, vy);
+			}
+			enemies = NULL;
+		}
+	}
+
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
@@ -43,7 +78,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if (isTransform) {
 		this->SetState(MARIO_STATE_TRANSFORM);
 	}
-
+	if (kick_start != -1 && GetTickCount64() - kick_start > MARIO_KICK_TIME_OUT)
+	{
+		kick_start = -1;
+	}
+	else if (kick_start != -1) {
+		this->SetState(MARIO_STATE_KICK);
+	}
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -61,6 +102,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
+
+		if (enemies) {
+			if (dynamic_cast<CKoopas*>(enemies)) {
+				enemies->SetSpeed(vx, vy);
+			}
+		}
 	}
 	else if (e->nx != 0 && e->obj->IsBlocking())
 	{
@@ -199,6 +246,8 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 				koopas->SetState(KOOPAS_STATE_SHELL_IDLE);
 			}
 			else if (koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
+				kick_start = GetTickCount64();
+				SetState(MARIO_STATE_KICK);
 				koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
 			}
 		}
@@ -207,15 +256,27 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 		}
 	} // Kick shell
 	else if (e->nx != 0 && koopas->GetState() == KOOPAS_STATE_SHELL_IDLE) {
-		this->SetState(MARIO_STATE_KICK);
-		float vx, vy;
-		koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
-		koopas->GetSpeed(vx, vy);
-		if (e->nx < 0) {
-			if (vx < 0) koopas->SetSpeed(-vx, vy);
+		if (handingMode == false) {
+			koopas->SetOnHand(false);
+			float vx, vy;
+			kick_start = GetTickCount64();
+			SetState(MARIO_STATE_KICK);
+			koopas->SetState(KOOPAS_STATE_SHELL_ROTATE);
+			koopas->GetSpeed(vx, vy);
+			if (e->nx < 0) {
+				if (vx < 0) koopas->SetSpeed(-vx, vy);
+			}
+			else if (e->nx > 0) {
+				if (vx > 0) koopas->SetSpeed(-vx, vy);
+			}
 		}
-		else if (e->nx > 0) {
-			if (vx > 0) koopas->SetSpeed(-vx, vy);
+		else {
+			enemies = koopas;
+			isHanding = true;
+			float direction = (nx >= 0) ? 1 : -1;
+			dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
+			enemies->SetPosition(x + direction * MARIO_SMALL_BBOX_WIDTH / 2 + direction * KOOPAS_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
+			enemies->SetSpeed(vx, vy);
 		}
 	}
 	else  // hit by koopas
@@ -290,6 +351,32 @@ int CMario::GetAniIdSmall()
 			aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
 		else
 			aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
+	}
+	else if (isHanding) {
+		if (vx == 0) {
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_IDLE;
+			else
+				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_IDLE;
+		}
+		else if (vx > 0)
+		{
+			if (ax < 0)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_IDLE;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_RUN;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_WALK;
+		}
+		else // vx < 0
+		{
+			if (ax > 0)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_IDLE;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_RUN;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_WALK;
+		}
 	}
 	else if (!isOnPlatform)
 	{
@@ -366,6 +453,12 @@ int CMario::GetAniIdBig()
 			aniId = ID_ANI_MARIO_BIG_KICK_RIGHT;
 		else
 			aniId = ID_ANI_MARIO_BIG_KICK_LEFT;
+	}
+	else if (isHanding) {
+		if (nx > 0)
+			aniId = ID_ANI_MARIO_BIG_HANDING_RIGHT;
+		else
+			aniId = ID_ANI_MARIO_BIG_HANDING_LEFT;
 	}
 	else if (!isOnPlatform)
 	{
@@ -458,7 +551,14 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_KICK:
 		vx = 0.0f;
-		ax = 0.0f;
+		break;
+
+	case MARIO_STATE_HANDING:
+		isHanding = true;
+		break;
+
+	case MARIO_STATE_HANDING_RELEASE:
+		isHanding = false;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
 		if (isSitting) break;
