@@ -118,7 +118,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if (state == KOOPAS_STATE_SHELL_IDLE && shell_wait_rotate_start != -1 && GetTickCount64() - shell_wait_rotate_start > KOOPAS_SHELL_WAIT_ROTATE_TIME_OUT) {
+	if (state == KOOPAS_STATE_SHELL_IDLE && shell_wait_rotate_start != -1 && GetTickCount64() - shell_wait_rotate_start > KOOPAS_SHELL_WAIT_ROTATE_TIME_OUT && !isOnHand) {
 		SetState(KOOPAS_STATE_SHELL_TRANSFORM_WALKING);
 	}
 	else if (state == KOOPAS_STATE_SHELL_TRANSFORM_WALKING && shell_transform_start != -1 && GetTickCount64() - shell_transform_start > KOOPAS_SHELL_TRANSFORM_WALKING_TIME_OUT) {
