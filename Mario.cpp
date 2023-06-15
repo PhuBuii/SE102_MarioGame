@@ -19,21 +19,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (x<=10)	x = 10;
 	if (x>=3000) x=3000;
-	vy += ay * dt;
-	vx += ax * dt;
 
-	if (isHanding) {
+	if (isHolding) {
 		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
-
-			dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
-
-			if (enemies->GetNx() != nx) {
-				enemies->SetNx(nx);
-
-			}
-			float direction = (nx >= 0) ? 1 : -1;
-			enemies->SetPosition(x + direction * MARIO_SMALL_BBOX_WIDTH / 2 + direction * KOOPAS_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
-			enemies->SetSpeed(vx, vy);
+			MarioHolding();
 		}
 		else {
 			enemies = NULL;
@@ -42,21 +31,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else {
 		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
 			dynamic_cast<CKoopas*>(enemies)->SetOnHand(false);
-			enemies->SetState(KOOPAS_STATE_SHELL_ROTATE);
+			
 			kick_start = GetTickCount64();
 			SetState(MARIO_STATE_KICK);
 			enemies->SetState(KOOPAS_STATE_SHELL_ROTATE);
-			enemies->GetSpeed(vx, vy);
-			if (enemies->GetNx() < 0) {
-				if (vx < 0) enemies->SetSpeed(-vx, vy);
-			}
-			else if (enemies->GetNx() > 0) {
-				if (vx > 0) enemies->SetSpeed(-vx, vy);
+			float koopa_vx, koopa_vy;
+			enemies->GetSpeed(koopa_vx, koopa_vy);
+			if (nx > 0 && koopa_vx < 0) {
+				enemies->SetSpeed(-koopa_vx, koopa_vy);
 			}
 			enemies = NULL;
 		}
 	}
-
+	vy += ay * dt;
+	vx += ax * dt;
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
@@ -272,11 +260,8 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 		}
 		else {
 			enemies = koopas;
-			isHanding = true;
-			float direction = (nx >= 0) ? 1 : -1;
-			dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
-			enemies->SetPosition(x + direction * MARIO_SMALL_BBOX_WIDTH / 2 + direction * KOOPAS_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
-			enemies->SetSpeed(vx, vy);
+			isHolding = true;
+			MarioHolding();
 		}
 	}
 	else  // hit by koopas
@@ -299,6 +284,42 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 		}
 	}
 
+}
+void CMario::MarioHolding() {
+	float direction = (vx >= 0) ? 1 : -1;
+	if (vx == 0) direction = (nx >= 0) ? 1 : -1;
+	dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
+	enemies->SetSpeed(vx, vy);
+	switch (level) {
+	case MARIO_LEVEL_SMALL:
+		if (direction == 1) {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_SMALL_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 2) / 2, y);
+			else
+				enemies->SetPosition(x + direction * (MARIO_SMALL_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 8) / 2, y);
+		}
+		else {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_SMALL_BBOX_WIDTH + KOOPAS_BBOX_WIDTH - 2) / 2, y);
+			else
+				enemies->SetPosition(x + direction * (MARIO_SMALL_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 6) / 2, y);
+		}
+		break;
+	case MARIO_LEVEL_BIG:
+		if (direction == 1) {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_BIG_BBOX_WIDTH + KOOPAS_BBOX_WIDTH - 3) / 2, y - 1);
+			else
+				enemies->SetPosition(x + direction * (MARIO_BIG_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 5) / 2, y - 1);
+		}
+		else {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_BIG_BBOX_WIDTH + KOOPAS_BBOX_WIDTH - 6) / 2, y - 2);
+			else
+				enemies->SetPosition(x + direction * (MARIO_BIG_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 3) / 2, y - 2);
+		}
+		break;
+	}
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
@@ -352,30 +373,30 @@ int CMario::GetAniIdSmall()
 		else
 			aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
 	}
-	else if (isHanding) {
+	else if (isHolding) {
 		if (vx == 0) {
 			if (nx > 0)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_IDLE;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_RIGHT_IDLE;
 			else
-				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_IDLE;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_LEFT_IDLE;
 		}
 		else if (vx > 0)
 		{
 			if (ax < 0)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_IDLE;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_RIGHT_IDLE;
 			else if (ax == MARIO_ACCEL_RUN_X)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_RUN;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_RIGHT_RUN;
 			else if (ax == MARIO_ACCEL_WALK_X)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_RIGHT_WALK;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_RIGHT_WALK;
 		}
 		else // vx < 0
 		{
 			if (ax > 0)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_IDLE;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_LEFT_IDLE;
 			else if (ax == -MARIO_ACCEL_RUN_X)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_RUN;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_LEFT_RUN;
 			else if (ax == -MARIO_ACCEL_WALK_X)
-				aniId = ID_ANI_MARIO_SMALL_HANDING_LEFT_WALK;
+				aniId = ID_ANI_MARIO_SMALL_HOLDING_LEFT_WALK;
 		}
 	}
 	else if (!isOnPlatform)
@@ -454,11 +475,31 @@ int CMario::GetAniIdBig()
 		else
 			aniId = ID_ANI_MARIO_BIG_KICK_LEFT;
 	}
-	else if (isHanding) {
-		if (nx > 0)
-			aniId = ID_ANI_MARIO_BIG_HANDING_RIGHT;
-		else
-			aniId = ID_ANI_MARIO_BIG_HANDING_LEFT;
+	else if (isHolding) {
+		if (vx == 0) {
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_RIGHT_IDLE;
+			else
+				aniId = ID_ANI_MARIO_BIG_HOLDING_LEFT_IDLE;
+		}
+		else if (vx > 0)
+		{
+			if (ax < 0)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_RIGHT_IDLE;
+			else if (ax == MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_RIGHT_RUN;
+			else if (ax == MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_RIGHT_WALK;
+		}
+		else // vx < 0
+		{
+			if (ax > 0)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_LEFT_IDLE;
+			else if (ax == -MARIO_ACCEL_RUN_X)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_LEFT_RUN;
+			else if (ax == -MARIO_ACCEL_WALK_X)
+				aniId = ID_ANI_MARIO_BIG_HOLDING_LEFT_WALK;
+		}
 	}
 	else if (!isOnPlatform)
 	{
@@ -553,12 +594,12 @@ void CMario::SetState(int state)
 		vx = 0.0f;
 		break;
 
-	case MARIO_STATE_HANDING:
-		isHanding = true;
+	case MARIO_STATE_HOLDING:
+		isHolding = true;
 		break;
 
-	case MARIO_STATE_HANDING_RELEASE:
-		isHanding = false;
+	case MARIO_STATE_HOLDING_RELEASE:
+		isHolding = false;
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
 		if (isSitting) break;

@@ -35,8 +35,8 @@
 
 #define MARIO_STATE_KICK	700
 
-#define MARIO_STATE_HANDING	800
-#define MARIO_STATE_HANDING_RELEASE 801
+#define MARIO_STATE_HOLDING	800
+#define MARIO_STATE_HOLDING_RELEASE 801
 
 #define MARIO_STATE_TRANSFORM	900
 
@@ -66,8 +66,12 @@
 #define ID_ANI_MARIO_BIG_KICK_LEFT	1031
 #define ID_ANI_MARIO_BIG_KICK_RIGHT	1041
 
-#define ID_ANI_MARIO_BIG_HANDING_LEFT	1051
-#define ID_ANI_MARIO_BIG_HANDING_RIGHT	1061
+#define ID_ANI_MARIO_BIG_HOLDING_LEFT_IDLE	1051
+#define ID_ANI_MARIO_BIG_HOLDING_RIGHT_IDLE	1052
+#define ID_ANI_MARIO_BIG_HOLDING_LEFT_WALK	1061
+#define ID_ANI_MARIO_BIG_HOLDING_RIGHT_WALK	1062
+#define ID_ANI_MARIO_BIG_HOLDING_LEFT_RUN	1071
+#define ID_ANI_MARIO_BIG_HOLDING_RIGHT_RUN	1072
 
 #define ID_ANI_MARIO_DIE 999
 
@@ -96,12 +100,12 @@
 #define ID_ANI_MARIO_SMALL_KICK_LEFT	1711
 #define ID_ANI_MARIO_SMALL_KICK_RIGHT	1721
 
-#define ID_ANI_MARIO_SMALL_HANDING_LEFT_IDLE	1731
-#define ID_ANI_MARIO_SMALL_HANDING_RIGHT_IDLE	1741
-#define ID_ANI_MARIO_SMALL_HANDING_LEFT_WALK	1751
-#define ID_ANI_MARIO_SMALL_HANDING_RIGHT_WALK	1761
-#define ID_ANI_MARIO_SMALL_HANDING_LEFT_RUN	1771
-#define ID_ANI_MARIO_SMALL_HANDING_RIGHT_RUN	1781
+#define ID_ANI_MARIO_SMALL_HOLDING_LEFT_IDLE	1731
+#define ID_ANI_MARIO_SMALL_HOLDING_RIGHT_IDLE	1741
+#define ID_ANI_MARIO_SMALL_HOLDING_LEFT_WALK	1751
+#define ID_ANI_MARIO_SMALL_HOLDING_RIGHT_WALK	1761
+#define ID_ANI_MARIO_SMALL_HOLDING_LEFT_RUN	1771
+#define ID_ANI_MARIO_SMALL_HOLDING_RIGHT_RUN	1781
 
 #define ID_ANI_MARIO_SMALL_TRANSFORM_TO_BIG_LEFT	1700
 #define ID_ANI_MARIO_SMALL_TRANSFORM_TO_BIG_RIGHT	1701
@@ -133,7 +137,7 @@
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
-	BOOLEAN isHanding;
+	BOOLEAN isHolding;
 
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -177,7 +181,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		isTransform = false;
-		isHanding = false;
+		isHolding = false;
 		handingMode = false;
 		enemies = NULL;
 		coin = 0;
@@ -195,11 +199,11 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	void MarioHolding();
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetHandingMode(bool handingMode) { this->handingMode = handingMode; }
-	bool GetHanding() { return isHanding; }
+	bool GetHolding() { return isHolding; }
 };
