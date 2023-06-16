@@ -2,6 +2,7 @@
 #include "QuestionBlock.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include "Piranha.h"
 
 CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 {
@@ -69,7 +70,13 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			kp->SetState(KOOPAS_HIT_BY_KOOPAS);
 		}
 	}
-	else if (dynamic_cast<CGoomba*>(e->obj)) {
+	if (dynamic_cast<CPiranha*>(e->obj)) {
+		CPiranha* p = (CPiranha*)e->obj;
+		if (state == KOOPAS_STATE_SHELL_ROTATE) {
+			p->SetState(VENUS_STATE_DIE_BY_ATTACK);
+		}
+	}
+	if (dynamic_cast<CGoomba*>(e->obj)) {
 		CGoomba* gb = (CGoomba*)(e->obj);
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			if (gb->GetState() != GOOMBA_STATE_DIE)
@@ -78,7 +85,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-	else if (dynamic_cast<CParaGoomba*>(e->obj)) {
+	if (dynamic_cast<CParaGoomba*>(e->obj)) {
 		CParaGoomba* paragoomba = (CParaGoomba*)(e->obj);
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			if (paragoomba->GetState() == PARAGOOMBA_STATE_WING_FLYING || paragoomba->GetState() == PARAGOOMBA_STATE_WING_WALKING) {
@@ -89,7 +96,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-	else if (dynamic_cast<CQuestionBlock*>(e->obj)) {
+	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			qb->SetState(EMPTY_BLOCK_STATE);

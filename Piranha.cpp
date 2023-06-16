@@ -94,6 +94,8 @@ void CVenusFireTrap::Render()
 		}
 
 	}
+	if(state == VENUS_STATE_DIE_BY_ATTACK)
+	aniID = ID_ANI_VENUS_DIE_BY_ATTACK;
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(aniID)->Render(x, y);
 }
@@ -126,6 +128,10 @@ void CVenusFireTrap::SetState(int state)
 		wait_start = GetTickCount64();
 		up_start = -1;
 		break;
+	case VENUS_STATE_DIE_BY_ATTACK:
+		vy = 0;
+		die_start = GetTickCount64();
+		break;
 	}
 }
 
@@ -151,6 +157,10 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if ((state == VENUS_STATE_WAIT) && (GetTickCount64() - wait_start > VENUS_FIRE_TIMEOUT))
 	{
 		SetState(VENUS_STATE_UP);
+	}
+	else if (state == VENUS_STATE_DIE_BY_ATTACK && GetTickCount64() - die_start > VENUS_DIE_TIME_OUT) {
+		isDeleted = true;
+		return;
 	}
 
 	CPiranha::Update(dt, coObjects);

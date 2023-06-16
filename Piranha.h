@@ -30,6 +30,7 @@
 #define ID_ANI_RED_VENUS_LOOK_UP_RIGHT 131014
 #define ID_ANI_RED_VENUS_RISING_LEFT 131011
 #define ID_ANI_RED_VENUS_RISING_RIGHT 131013
+#define ID_ANI_VENUS_DIE_BY_ATTACK 133015
 
 #define ID_ANI_FIREBALL_LEFT 134011
 #define ID_ANI_FIREBALL_RIGHT 134012
@@ -48,9 +49,11 @@
 #define VENUS_STATE_UP 105
 #define VENUS_STATE_DOWN 106
 #define VENUS_STATE_WAIT 107
+#define VENUS_STATE_DIE_BY_ATTACK 108
 
 #define VENUS_SPEED 0.03f
 
+#define VENUS_DIE_TIME_OUT 200
 #define VENUS_IDLE_TIMEOUT 3000
 #define VENUS_FIRE_TIMEOUT 2000
 #define VENUS_TIMEOUT 1150
@@ -87,6 +90,7 @@ class CVenusFireTrap : public CPiranha {
 protected:
 	ULONGLONG idle_start, fire_start;
 	float x_mario, y_mario;
+	ULONGLONG die_start;
 	int fire_ball_added;
 	float maxY;
 public:
