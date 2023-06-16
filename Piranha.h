@@ -13,7 +13,7 @@
 
 #define PIRANHA_SPEED 0.025f
 
-#define PIRANHA_TIMEOUT 1100
+#define PIRANHA_TIMEOUT 1150
 #define PIRANHA_WAIT_TIMEOUT 3000
 
 
@@ -44,12 +44,16 @@
 
 #define VENUS_STATE_IDLE 103
 #define VENUS_STATE_FIRE 104
+#define VENUS_STATE_UP 105
+#define VENUS_STATE_DOWN 106
+#define VENUS_STATE_WAIT 107
 
 #define VENUS_SPEED 0.03f
 
 #define VENUS_IDLE_TIMEOUT 3000
-#define VENUS_FIRE_TIMEOUT 3000
-
+#define VENUS_FIRE_TIMEOUT 2000
+#define VENUS_TIMEOUT 1150
+#define VENUS_WAIT_TIMEOUT 3000
 
 class CPiranha : public CGameObject
 {
@@ -58,10 +62,12 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) { return; };
 	ULONGLONG up_start, wait_start;
 	float speed;
+	float maxY;
 public:
 	CPiranha(float x, float y) : CGameObject(x, y) {
 		up_start = -1;
 		wait_start = -1;
+		maxY = y - PIRANHA_BBOX_HEIGHT;
 		SetState(PIRANHA_STATE_WAIT);
 		speed = PIRANHA_SPEED;
 	};
@@ -81,10 +87,13 @@ protected:
 	ULONGLONG idle_start, fire_start;
 	float x_mario, y_mario;
 	int fire_ball_added;
+	float maxY;
 public:
 	CVenusFireTrap(float x, float y) : CPiranha(x, y) {
+		maxY = y - VENUS_BBOX_HEIGHT;
 		idle_start = -1;
 		speed = VENUS_SPEED;
+		SetState(VENUS_STATE_WAIT);
 		x_mario = 0;
 		y_mario = 0;
 		fire_ball_added = 0;

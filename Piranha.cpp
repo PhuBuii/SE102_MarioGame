@@ -1,6 +1,6 @@
 #include "Piranha.h"
 #include "Game.h"
-
+#include "debug.h"
 void CPiranha::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x - PIRANHA_BBOX_WIDTH / 2;
@@ -20,7 +20,6 @@ void CPiranha::Render()
 void CPiranha::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy * dt;
-
 
 	if ((state == PIRANHA_STATE_UP) && (GetTickCount64() - up_start > PIRANHA_TIMEOUT))
 	{
@@ -74,9 +73,7 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CVenusFireTrap::Render()
 {
 	int aniID = ID_ANI_RED_VENUS_RISING_LEFT;
-	if (IsMarioOnLeft())
-	aniID = ID_ANI_RED_VENUS_RISING_LEFT;
-	else
+	if (!IsMarioOnLeft())
 	aniID = ID_ANI_RED_VENUS_RISING_RIGHT;
 	if (state == VENUS_STATE_IDLE) {
 		if (IsMarioHigher()) {
@@ -110,27 +107,50 @@ void CVenusFireTrap::SetState(int state)
 		idle_start = GetTickCount64();
 		break;
 	case VENUS_STATE_FIRE:
+		vy = 0;
 		fire_start = GetTickCount64();
 		fire_ball_added = 0;
+		break;
+	case VENUS_STATE_DOWN:
+		vy = speed;
+		wait_start = -1;
+		up_start = GetTickCount64();
+		break;
+	case VENUS_STATE_UP:
+		vy = -speed;
+		wait_start = -1;
+		up_start = GetTickCount64();
+		break;
+	case VENUS_STATE_WAIT:
+		vy = 0;
+		wait_start = GetTickCount64();
+		up_start = -1;
 		break;
 	}
 }
 
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
 	if ((state == VENUS_STATE_IDLE) && (GetTickCount64() - idle_start > VENUS_IDLE_TIMEOUT))
 	{
 		SetState(VENUS_STATE_FIRE);
 	}
 	else if ((state == VENUS_STATE_FIRE) && (GetTickCount64() - fire_start > VENUS_FIRE_TIMEOUT))
 	{
-		SetState(PIRANHA_STATE_DOWN);
+		SetState(VENUS_STATE_DOWN);
 	}
-	else if ((state == PIRANHA_STATE_UP) && (GetTickCount64() - up_start > PIRANHA_TIMEOUT))
+	else if ((state == VENUS_STATE_UP) && (GetTickCount64() - up_start > VENUS_TIMEOUT))
 	{
 		SetState(VENUS_STATE_IDLE);
 		fire_ball_added = 0;
+	}
+	else if ((state == VENUS_STATE_DOWN) && (GetTickCount64() - up_start > VENUS_TIMEOUT))
+	{
+		SetState(VENUS_STATE_WAIT);
+	}
+	else if ((state == VENUS_STATE_WAIT) && (GetTickCount64() - wait_start > VENUS_FIRE_TIMEOUT))
+	{
+		SetState(VENUS_STATE_UP);
 	}
 
 	CPiranha::Update(dt, coObjects);

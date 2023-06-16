@@ -179,8 +179,7 @@ plant.txt
 6	2279	182	0	1	80300
 #Piranha
 11	1889	173
-#Venus
-12	369	160
+
 # Pipe
 ##TYPE x,y,width,height,lenght,id_bgin,id_end
 9	360	148	18	15	3	111011	112012	
@@ -200,6 +199,8 @@ plant.txt
 
 9	2450	163	18	15	2	111011	112012	
 9	2465	163	18	15	2	111021	112022	
+#Venus
+12	368	160
 #PARA-GOOMBA
 #14	560	163
 # MARIO

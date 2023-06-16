@@ -320,8 +320,7 @@ void CPlayScene::Update(DWORD dt)
 				float venus_x, venus_y;
 				venus->IncreaseFireBall();
 				venus->GetPosition(venus_x, venus_y);
-				objects.insert(objects.begin() + i, new CFireBall(venus_x - 10, venus_y - 10, x_mario, y_mario));
-				DebugOut(L"add fireball\n");
+				objects.insert(objects.begin() + i, new CFireBall(venus_x, venus_y - VENUS_BBOX_HEIGHT / 3, x_mario, y_mario));
 			}
 		}
 
