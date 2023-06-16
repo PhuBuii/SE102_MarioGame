@@ -30,6 +30,7 @@
 #define ID_ANI_RED_VENUS_LOOK_UP_RIGHT 131014
 #define ID_ANI_RED_VENUS_RISING_LEFT 131011
 #define ID_ANI_RED_VENUS_RISING_RIGHT 131013
+
 #define ID_ANI_VENUS_DIE_BY_ATTACK 133015
 
 #define ID_ANI_FIREBALL_LEFT 134011
@@ -92,9 +93,11 @@ protected:
 	float x_mario, y_mario;
 	ULONGLONG die_start;
 	int fire_ball_added;
+	int color;
 	float maxY;
 public:
-	CVenusFireTrap(float x, float y) : CPiranha(x, y) {
+	CVenusFireTrap(float x, float y,int c) : CPiranha(x, y) {
+		this->color = c;
 		maxY = y - VENUS_BBOX_HEIGHT;
 		idle_start = -1;
 		speed = VENUS_SPEED;
@@ -116,9 +119,18 @@ public:
 
 
 class CFireBall : public CVenusFireTrap {
-
 public:
-	CFireBall(float x, float y, float x_mario, float y_mario);
+	CFireBall(float x, float y, float x_mario, float y_mario, int c) : CVenusFireTrap(x, y, c)
+	{
+		// Rest of the constructor code
+		if (x < x_mario) {
+			vx = FIREBALL_SPEED;
+		}
+		else {
+			vx = -FIREBALL_SPEED;
+		}
+		vy = (y_mario - y) / (x_mario - x) * vx;
+	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void Render();

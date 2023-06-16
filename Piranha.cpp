@@ -72,27 +72,54 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CVenusFireTrap::Render()
 {
-	int aniID = ID_ANI_RED_VENUS_RISING_LEFT;
-	if (!IsMarioOnLeft())
-	aniID = ID_ANI_RED_VENUS_RISING_RIGHT;
-	if (state == VENUS_STATE_IDLE) {
-		if (IsMarioHigher()) {
-			if (IsMarioOnLeft()) {
-				aniID = ID_ANI_RED_VENUS_LOOK_UP_LEFT;
+	int aniID = -1;
+	if (color == 0) {
+		aniID = ID_ANI_RED_VENUS_RISING_LEFT;
+		if (!IsMarioOnLeft())
+			aniID = ID_ANI_RED_VENUS_RISING_RIGHT;
+		if (state == VENUS_STATE_IDLE) {
+			if (IsMarioHigher()) {
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_RED_VENUS_LOOK_UP_LEFT;
+				}
+				else {
+					aniID = ID_ANI_RED_VENUS_LOOK_UP_RIGHT;
+				}
 			}
 			else {
-				aniID = ID_ANI_RED_VENUS_LOOK_UP_RIGHT;
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_RED_VENUS_LOOK_DOWN_LEFT;
+				}
+				else {
+					aniID = ID_ANI_RED_VENUS_LOOK_DOWN_RIGHT;
+				}
 			}
-		}
-		else {
-			if (IsMarioOnLeft()) {
-				aniID = ID_ANI_RED_VENUS_LOOK_DOWN_LEFT;
-			}
-			else {
-				aniID = ID_ANI_RED_VENUS_LOOK_DOWN_RIGHT;
-			}
-		}
 
+		}
+	}
+	else if (color == 1) {
+		aniID = ID_ANI_GREEN_VENUS_RISING_LEFT;
+		if (!IsMarioOnLeft())
+			aniID = ID_ANI_GREEN_VENUS_RISING_RIGHT;
+		if (state == VENUS_STATE_IDLE) {
+			if (IsMarioHigher()) {
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_GREEN_VENUS_LOOK_UP_LEFT;
+				}
+				else {
+					aniID = ID_ANI_GREEN_VENUS_LOOK_UP_RIGHT;
+				}
+			}
+			else {
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_GREEN_VENUS_LOOK_DOWN_LEFT;
+				}
+				else {
+					aniID = ID_ANI_GREEN_VENUS_LOOK_DOWN_RIGHT;
+				}
+			}
+
+		}
 	}
 	if(state == VENUS_STATE_DIE_BY_ATTACK)
 	aniID = ID_ANI_VENUS_DIE_BY_ATTACK;
@@ -198,16 +225,6 @@ int CVenusFireTrap::GetFireBall()
 	return fire_ball_added;
 }
 
-CFireBall::CFireBall(float x, float y, float x_mario, float y_mario) : CVenusFireTrap(x, y)
-{
-	if (x < x_mario) {
-		vx = FIREBALL_SPEED;
-	}
-	else {
-		vx = -FIREBALL_SPEED;
-	}
-	vy = (y_mario - y) / (x_mario - x) * vx;
-}
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

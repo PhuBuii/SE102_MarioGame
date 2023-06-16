@@ -128,7 +128,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParaGoomba(x, y); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(x, y,atoi(tokens[3].c_str())); break;
 	case OBJECT_TYPE_PIRANHA: obj = new CPiranha(x, y); break;
-	case OBJECT_TYPE_VENUS: obj = new CVenusFireTrap(x, y); break;
+	case OBJECT_TYPE_VENUS: obj = new CVenusFireTrap(x, y, atoi(tokens[3].c_str())); break;
 	case OBJECT_TYPE_TIGER_BRICK: obj = new CTigerBrick(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
@@ -320,7 +320,7 @@ void CPlayScene::Update(DWORD dt)
 				float venus_x, venus_y;
 				venus->IncreaseFireBall();
 				venus->GetPosition(venus_x, venus_y);
-				objects.insert(objects.begin() + i, new CFireBall(venus_x, venus_y - VENUS_BBOX_HEIGHT / 3, x_mario, y_mario));
+				objects.insert(objects.begin() + i, new CFireBall(venus_x, venus_y - VENUS_BBOX_HEIGHT / 3, x_mario, y_mario,0));
 			}
 		}
 

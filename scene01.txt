@@ -180,7 +180,8 @@ plant.txt
 #Piranha
 11	1889	176
 #Venus
-12	368	160
+12	368	160	0
+12	1958	165	1
 # Pipe
 ##TYPE x,y,width,height,lenght,id_bgin,id_end
 9	360	148	15	15	3	111011	112012	
@@ -202,7 +203,7 @@ plant.txt
 9	2465	163	15	15	2	111021	112022	
 
 # MARIO
-0	780	50
+0	1900	50
 #0	1087	150
 
 # QUESTIONS BLOCK
