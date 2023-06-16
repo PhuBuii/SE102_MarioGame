@@ -19,7 +19,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (x<=10)	x = 10;
 	if (x>=3000) x=3000;
-
+	if (y >= 195) SetState(MARIO_STATE_DIE);
 	if (isHolding) {
 		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
 			MarioHolding();
