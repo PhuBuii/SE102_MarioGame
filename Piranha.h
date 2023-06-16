@@ -31,7 +31,8 @@
 #define ID_ANI_RED_VENUS_RISING_LEFT 131011
 #define ID_ANI_RED_VENUS_RISING_RIGHT 131013
 
-#define ID_ANI_FIREBALL 134011
+#define ID_ANI_FIREBALL_LEFT 134011
+#define ID_ANI_FIREBALL_RIGHT 134012
 
 #define FIREBALL_WIDTH 8
 #define FIREBALL_BBOX_WIDTH 8
@@ -110,12 +111,14 @@ public:
 };
 
 
-class CFireBall : public CGameObject {
+class CFireBall : public CVenusFireTrap {
+
 public:
 	CFireBall(float x, float y, float x_mario, float y_mario);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	void Render();
+	bool IsMarioOnLeft();
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 };

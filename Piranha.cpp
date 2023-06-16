@@ -188,7 +188,7 @@ int CVenusFireTrap::GetFireBall()
 	return fire_ball_added;
 }
 
-CFireBall::CFireBall(float x, float y, float x_mario, float y_mario) : CGameObject(x, y)
+CFireBall::CFireBall(float x, float y, float x_mario, float y_mario) : CVenusFireTrap(x, y)
 {
 	if (x < x_mario) {
 		vx = FIREBALL_SPEED;
@@ -223,6 +223,17 @@ void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CFireBall::Render()
 {
+	int aniID = ID_ANI_FIREBALL_LEFT;
+	if (!IsMarioOnLeft())
+		aniID = ID_ANI_FIREBALL_RIGHT;
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_FIREBALL)->Render(x, y);
+	animations->Get(aniID)->Render(x, y);
+}
+bool CFireBall::IsMarioOnLeft()
+{
+	if (x > x_mario) {
+		return true;
+	}
+	else
+		return false;
 }
