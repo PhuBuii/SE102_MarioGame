@@ -248,8 +248,8 @@ void CParaGoomba::SetState(int state)
 	case GOOMBA_STATE_WALKING:
 		ay = GOOMBA_GRAVITY;
 		vy = 0;
-		/*fly_start = -1;
-		wait_start = -1;*/
+		fly_start = -1;
+		wait_start = -1;
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_HIT_BY_KOOPA:
