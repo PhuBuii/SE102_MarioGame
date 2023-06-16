@@ -202,9 +202,9 @@ plant.txt
 9	2465	163	15	15	2	111021	112022	
 
 #PARA-GOOMBA
-#14	560	163
+14	800	163
 # MARIO
-0	500	50
+0	20	50
 #0	1087	150
 
 # QUESTIONS BLOCK
@@ -282,10 +282,13 @@ plant.txt
 4	1220	0	1
 #Goomba
 2	560	163
+2	350	163
+2	700	163
+2	750	163
+
 
 #Koopa
 3	560	140
-3	560	163
 
 #Platform
 #type	x	y	width	height	length	id_begin	id_middle	id_end	draw_direction
