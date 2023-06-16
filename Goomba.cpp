@@ -242,9 +242,9 @@ void CParaGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case PARAGOOMBA_STATE_WING_WALKING:
-		/*ay = GOOMBA_GRAVITY;
-		vy = 0;*/
-		/*break;*/
+		ay = GOOMBA_GRAVITY;
+		vy = 0;
+		break;
 	case GOOMBA_STATE_WALKING:
 		ay = GOOMBA_GRAVITY;
 		vy = 0;
