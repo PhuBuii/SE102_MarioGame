@@ -1,7 +1,14 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 20003	372	135	387	150	20
+#DISSAPEAR
+20004	459	44	469	54	20
+20005	472	42	487	57	20
+20006	490	45	505	56	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 2003	20003	100
+
+#BREAK
+2004	20004	100	20005	100	20006	100

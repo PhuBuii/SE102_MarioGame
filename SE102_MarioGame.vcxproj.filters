@@ -199,9 +199,6 @@
     <Image Include="textures\bbox.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\ground.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="textures\mario.png">
       <Filter>Resource Files</Filter>
     </Image>

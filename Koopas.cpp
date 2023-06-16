@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Piranha.h"
+#include "Brick.h"
 
 CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 {
@@ -113,6 +114,13 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			qb->SetState(EMPTY_BLOCK_STATE);
+		}
+	}
+	if (dynamic_cast<CBrick*>(e->obj)) {
+		CBrick* brick = (CBrick*)e->obj;
+		if (state == KOOPAS_STATE_SHELL_ROTATE) {
+			brick->SetState(ID_STATE_BREAK_BRICK);
+			vx = -vx;
 		}
 	}
 	if (!e->obj->IsBlocking()) return;
