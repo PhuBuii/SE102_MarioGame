@@ -22,12 +22,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y >= 195) SetState(MARIO_STATE_DIE);
 	if (isHolding) {
 		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
-			if (enemies->GetState() != KOOPAS_STATE_WALKING)
+			if (enemies->GetState() != KOOPAS_STATE_WALKING && enemies->GetState() != KOOPAS_HIT_BY_KOOPAS)
 				MarioHolding();
 			else {
 				dynamic_cast<CKoopas*>(enemies)->SetOnHand(false);
 				isHolding = false;
-				MarioIsAttacked();
+				if (enemies ->GetState() != KOOPAS_HIT_BY_KOOPAS)	MarioIsAttacked();
 				enemies = NULL;
 			}
 		}
@@ -208,6 +208,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+	if (koopas->GetState() == KOOPAS_HIT_BY_KOOPAS) return;
 	// jump on top >> koopa transform to shell and deflect a bit 
 	if (e->ny < 0)
 	{
