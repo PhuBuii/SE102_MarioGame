@@ -22,7 +22,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y >= 195) SetState(MARIO_STATE_DIE);
 	if (isHolding) {
 		if (enemies && dynamic_cast<CKoopas*>(enemies)) {
-			MarioHolding();
+			if (enemies->GetState() != KOOPAS_STATE_WALKING)
+				MarioHolding();
+			else {
+				dynamic_cast<CKoopas*>(enemies)->SetOnHand(false);
+				isHolding = false;
+				MarioIsAttacked();
+				enemies = NULL;
+			}
 		}
 		else {
 			enemies = NULL;
@@ -118,8 +125,17 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPowerUp(e);
 	else if (dynamic_cast<CPiranha*>(e->obj))
 		OnCollisionWithPiranha(e);
+	else if (dynamic_cast<CFireBall*>(e->obj))
+		OnCollisionWithFireBall(e);
 }
 
+void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
+{
+	if (untouchable == 0)
+	{
+		MarioIsAttacked();
+	}
+}
 void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
 {
 	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
@@ -127,17 +143,7 @@ void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
 
 	if (untouchable == 0)
 	{
-		if (level > MARIO_LEVEL_SMALL)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
-		}
-
+		MarioIsAttacked();
 	}
 
 }
@@ -158,19 +164,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (untouchable == 0)
 		{
-			if (goomba->GetState() != GOOMBA_STATE_DIE)
-			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
-			}
+			MarioIsAttacked();
 		}
 	}
 }
@@ -206,17 +200,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 		{
 			if (paragoomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					DebugOut(L"touch goomba\n");
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				MarioIsAttacked();
 			}
 		}
 	}
@@ -269,21 +253,24 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 		if (untouchable == 0)
 		{
 			if (koopas->GetState() != KOOPAS_STATE_SHELL_IDLE && koopas->GetState() != KOOPAS_STATE_SHELL_TRANSFORM_WALKING) {
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					StartUntouchable();
-					isTransform = true;
-					this->SetState(MARIO_STATE_TRANSFORM);
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				MarioIsAttacked();
 			}
 		}
 	}
 
+}
+void CMario::MarioIsAttacked() {
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		StartUntouchable();
+		isTransform = true;
+		this->SetState(MARIO_STATE_TRANSFORM);
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
 }
 void CMario::MarioHolding() {
 	float direction = (vx >= 0) ? 1 : -1;
