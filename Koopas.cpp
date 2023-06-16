@@ -4,8 +4,9 @@
 #include "Goomba.h"
 #include "Piranha.h"
 
-CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
+CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 {
+	this->color = c;
 	this->ax = 0;
 	this->ay = KOOPAS_GRAVITY;
 	isOnHand = false;
@@ -174,28 +175,52 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 int CKoopas::GetAni() {
 	int aniId = -1;
-	switch (state) {
-	case KOOPAS_STATE_WALKING:
-		if (vx < 0)
-			aniId = ID_ANI_KOOPAS_WALKING_LEFT;
-		else
-			aniId = ID_ANI_KOOPAS_WALKING_RIGHT;
-		break;
-	case KOOPAS_STATE_SHELL_IDLE:
-		aniId = ID_ANI_KOOPAS_SHELL_IDLE;
-		break;
-	case KOOPAS_STATE_SHELL_ROTATE:
-		aniId = ID_ANI_KOOPAS_SHELL_ROTATE;
-		break;
-	case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
-		aniId = ID_ANI_KOOPAS_SHELL_TRANSFORM_WALKING;
-		break;
-	case KOOPAS_STATE_DIE:
-		aniId = ID_ANI_KOOPAS_SHELL_IDLE;
-		break;
-	case KOOPAS_HIT_BY_KOOPAS:
-		aniId = ID_ANI_KOOPAS_HIT_BY_KOOPAS;
-	}
+	if(color == 0)
+		switch (state) {
+		case KOOPAS_STATE_WALKING:
+			if (vx < 0)
+				aniId = ID_ANI_RED_KOOPAS_WALKING_LEFT;
+			else
+				aniId = ID_ANI_RED_KOOPAS_WALKING_RIGHT;
+			break;
+		case KOOPAS_STATE_SHELL_IDLE:
+			aniId = ID_ANI_RED_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_STATE_SHELL_ROTATE:
+			aniId = ID_ANI_RED_KOOPAS_SHELL_ROTATE;
+			break;
+		case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
+			aniId = ID_ANI_RED_KOOPAS_SHELL_TRANSFORM_WALKING;
+			break;
+		case KOOPAS_STATE_DIE:
+			aniId = ID_ANI_RED_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_HIT_BY_KOOPAS:
+			aniId = ID_ANI_RED_KOOPAS_HIT_BY_KOOPAS;
+		}
+	if (color == 1)
+		switch (state) {
+		case KOOPAS_STATE_WALKING:
+			if (vx < 0)
+				aniId = ID_ANI_GREEN_KOOPAS_WALKING_LEFT;
+			else
+				aniId = ID_ANI_GREEN_KOOPAS_WALKING_RIGHT;
+			break;
+		case KOOPAS_STATE_SHELL_IDLE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_STATE_SHELL_ROTATE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_ROTATE;
+			break;
+		case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_TRANSFORM_WALKING;
+			break;
+		case KOOPAS_STATE_DIE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_HIT_BY_KOOPAS:
+			aniId = ID_ANI_GREEN_KOOPAS_HIT_BY_KOOPAS;
+		}
 	return aniId;
 }
 

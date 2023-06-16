@@ -24,13 +24,19 @@
 #define KOOPAS_STATE_DIE 500
 #define KOOPAS_HIT_BY_KOOPAS 600
 
-#define ID_ANI_KOOPAS_WALKING_LEFT 10000
-#define ID_ANI_KOOPAS_WALKING_RIGHT 10010
-#define ID_ANI_KOOPAS_SHELL_IDLE 10001
-#define ID_ANI_KOOPAS_SHELL_ROTATE 10002
-#define ID_ANI_KOOPAS_SHELL_TRANSFORM_WALKING 10003
-#define ID_ANI_KOOPAS_HIT_BY_KOOPAS 10004
+#define ID_ANI_RED_KOOPAS_WALKING_LEFT 10000
+#define ID_ANI_RED_KOOPAS_WALKING_RIGHT 10010
+#define ID_ANI_RED_KOOPAS_SHELL_IDLE 10001
+#define ID_ANI_RED_KOOPAS_SHELL_ROTATE 10002
+#define ID_ANI_RED_KOOPAS_SHELL_TRANSFORM_WALKING 10003
+#define ID_ANI_RED_KOOPAS_HIT_BY_KOOPAS 10004
 
+#define ID_ANI_GREEN_KOOPAS_WALKING_LEFT 10005
+#define ID_ANI_GREEN_KOOPAS_WALKING_RIGHT 10015
+#define ID_ANI_GREEN_KOOPAS_SHELL_IDLE 10006
+#define ID_ANI_GREEN_KOOPAS_SHELL_ROTATE 10007
+#define ID_ANI_GREEN_KOOPAS_SHELL_TRANSFORM_WALKING 10008
+#define ID_ANI_GREEN_KOOPAS_HIT_BY_KOOPAS 10009
 
 class CKoopas : public CGameObject
 {
@@ -41,6 +47,7 @@ protected:
 	bool isOnHand;
 	float mario_x;
 	float mario_y;
+	int color;
 	ULONGLONG shell_wait_rotate_start;
 	ULONGLONG shell_transform_start;
 	ULONGLONG die_start;
@@ -58,7 +65,7 @@ protected:
 	int GetAni();
 
 public:
-	CKoopas(float x, float y);
+	CKoopas(float x, float y,int c);
 	void SetOnHand(bool onHand) { this->isOnHand = onHand; }
 	virtual void SetState(int state);
 };
