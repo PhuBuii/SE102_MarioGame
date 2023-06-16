@@ -316,10 +316,11 @@ void CPlayScene::Update(DWORD dt)
 		else if (dynamic_cast<CVenusFireTrap*>(objects[i])) {
 			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
 			venus->GetMarioPosition(x_mario, y_mario);
-			venus->GetPosition(venus_x, venus_y);
-			if (venus->GetState() == VENUS_STATE_FIRE && venus->IsFireBallAdded() == true) {
-				CGameObject* fireball = new CFireBall(venus_x, venus_y, x_mario, y_mario);
-				current_scene->AddObject(fireball);
+			if (venus->GetState() == VENUS_STATE_FIRE && venus->GetFireBall() == 0) {
+				float venus_x, venus_y;
+				venus->IncreaseFireBall();
+				venus->GetPosition(venus_x, venus_y);
+				objects.insert(objects.begin() + i, new CFireBall(venus_x - 10, venus_y - 10, x_mario, y_mario));
 				DebugOut(L"add fireball\n");
 			}
 		}

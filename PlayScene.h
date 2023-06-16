@@ -17,7 +17,6 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	float x_mario, y_mario;
-	float venus_x, venus_y;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

@@ -111,27 +111,28 @@ void CVenusFireTrap::SetState(int state)
 		break;
 	case VENUS_STATE_FIRE:
 		fire_start = GetTickCount64();
-		fire_ball_added = true;
+		fire_ball_added = 0;
 		break;
 	}
 }
+
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	if ((state == VENUS_STATE_IDLE) && (GetTickCount64() - idle_start > VENUS_IDLE_TIMEOUT))
 	{
 		SetState(VENUS_STATE_FIRE);
-		fire_ball_added = true;
 	}
 	else if ((state == VENUS_STATE_FIRE) && (GetTickCount64() - fire_start > VENUS_FIRE_TIMEOUT))
 	{
 		SetState(PIRANHA_STATE_DOWN);
-		fire_ball_added = false;
 	}
 	else if ((state == PIRANHA_STATE_UP) && (GetTickCount64() - up_start > PIRANHA_TIMEOUT))
 	{
 		SetState(VENUS_STATE_IDLE);
+		fire_ball_added = 0;
 	}
+
 	CPiranha::Update(dt, coObjects);
 }
 void CVenusFireTrap::GetMarioPosition(float x, float y)
@@ -148,6 +149,7 @@ bool CVenusFireTrap::IsMarioOnLeft()
 	else
 		return false;
 }
+
 bool CVenusFireTrap::IsMarioHigher()
 {
 	if (y > y_mario)
@@ -156,26 +158,36 @@ bool CVenusFireTrap::IsMarioHigher()
 		return true;
 }
 
-void CVenusFireTrap::SetFireBallAdded()
+void CVenusFireTrap::IncreaseFireBall()
 {
-	fire_ball_added = true;
+	fire_ball_added += 1;
 }
 
-bool CVenusFireTrap::IsFireBallAdded()
+int CVenusFireTrap::GetFireBall()
 {
 	return fire_ball_added;
 }
 
 CFireBall::CFireBall(float x, float y, float x_mario, float y_mario) : CGameObject(x, y)
 {
-	vx = (y_mario - y) / (x_mario - x);
-	vy = y - vx * x;
+	if (x < x_mario) {
+		vx = FIREBALL_SPEED;
+	}
+	else {
+		vx = -FIREBALL_SPEED;
+	}
+	vy = (y_mario - y) / (x_mario - x) * vx;
 }
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy * dt;
 	x += vx * dt;
+
+	float cx, cy, cw, ch;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	if (x < cx || (x > cx + 320) || y < cy || (y > cy + 240))
+		this->Delete();
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -191,7 +203,6 @@ void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CFireBall::Render()
 {
-	int aniId = ID_ANI_FIREBALL;
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	CAnimations* animations = CAnimations::GetInstance();
+	animations->Get(ID_ANI_FIREBALL)->Render(x, y);
 }
