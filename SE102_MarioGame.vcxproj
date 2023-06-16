@@ -201,10 +201,10 @@
     <Image Include="textures\mario.png" />
     <Image Include="textures\misc.png" />
     <Image Include="textures\misc_1.png" />
-    <Image Include="textures\misc_1_transparent.png" />
     <Image Include="textures\misc_2.png" />
     <Image Include="textures\misc_3.png" />
     <Image Include="textures\misc_4.png" />
+    <Image Include="textures\misc_5.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="background.txt" />

@@ -211,9 +211,6 @@
     <Image Include="textures\misc_1.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\misc_1_transparent.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="textures\misc_2.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -230,6 +227,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="textures\misc_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="textures\misc_5.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

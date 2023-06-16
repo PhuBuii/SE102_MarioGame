@@ -23,4 +23,5 @@ height	240
 22	textures\misc_2.png
 23	textures\misc_3.png
 25	textures\misc_4.png
+26	textures\misc_5.png
 24	textures\ground.png
