@@ -3,6 +3,8 @@
 CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, int type_block) : CGameObject(x, y) {
 	up_start = -1;
 	this->type_block = type_block;
+	this->ay = 0;
+	y_init = y;
 	CGameObject::SetState(QUESTION_BLOCK_STATE);
 	coin = NULL;
 	pu = NULL;
@@ -13,7 +15,7 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		objects.push_back(coin);
 		break;
 	case QBLOCK_TYPE_POWERUP:
-		pu = new CPowerUp(x, y);
+		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2);
 		pu->SetState(POWER_UP_HIDDEN_STATE);
 		objects.push_back(pu);
 		break;
@@ -21,32 +23,54 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 	}
 }
 
+void CQuestionBlock::OnNoCollision(DWORD dt) {
+	y += vy * dt;
+}
+
 void CQuestionBlock::SetState(int state) {
 	int old_state = this->state;
 	CGameObject::SetState(state);
 
 	if (old_state == QUESTION_BLOCK_STATE && state == EMPTY_BLOCK_STATE) {
-		if (type_block == QBLOCK_TYPE_COIN) {
-			coin->SetState(COIN_UP_STATE);
-		}
-		else if (type_block == QBLOCK_TYPE_POWERUP) {
-			pu->SetState(MUSHROOM_UP_STATE);
-		}
-		y -= BLOCK_UP_DISTANCE;
+		vy = -QUESTION_BLOCK_DEFLECT_SPEED;
+		ay = QUESTION_BLOCK_GRAVITY;
 		up_start = GetTickCount64();
 
 	}
 
 }
 
+void CQuestionBlock::ActiveEvents() {
+	switch (this->type_block) {
+	case QBLOCK_TYPE_COIN:
+		coin->SetState(COIN_UP_STATE);
+		break;
+	case QBLOCK_TYPE_POWERUP:
+		pu->SetState(MUSHROOM_UP_STATE);
+		break;
+	}
+}
+
 void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
-	if ((this->state == EMPTY_BLOCK_STATE) && (up_start != -1) && (GetTickCount64() - up_start > BLOCK_UP_TIME_OUT)) {
-		y += BLOCK_UP_DISTANCE;
-		up_start = -1;
+	vy += ay * dt;
+
+	if (this->state == EMPTY_BLOCK_STATE) {
+		if ((up_start != -1) && (GetTickCount64() - up_start > BLOCK_UP_TIME_OUT)) {
+			vy = QUESTION_BLOCK_DEFLECT_SPEED;
+			up_start = -1;
+		}
+
+		if (y > y_init && vy != 0) {
+			vy = 0;
+			ay = 0;
+			y = y_init;
+			ActiveEvents();
+		}
 	}
 
 	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CQuestionBlock::Render()
@@ -57,7 +81,7 @@ void CQuestionBlock::Render()
 	}
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(id_ani)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CQuestionBlock::GetBoundingBox(float& l, float& t, float& r, float& b)

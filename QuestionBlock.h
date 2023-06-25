@@ -10,12 +10,15 @@
 #define ID_ANI_QUESTION_BLOCK 12000
 #define ID_ANI_EMPTY_BLOCK 13000
 
+#define QUESTION_BLOCK_GRAVITY	0.0002f
+#define QUESTION_BLOCK_DEFLECT_SPEED	0.2f
+
 #define QUESTION_BLOCK_STATE 1
 #define EMPTY_BLOCK_STATE 2
 
-#define BLOCK_UP_TIME_OUT 75
+#define BLOCK_UP_TIME_OUT 80
 
-#define BLOCK_UP_DISTANCE 8
+#define BLOCK_UP_DISTANCE 10
 
 #define QBLOCK_WIDTH 16
 #define QBLOCK_BBOX_WIDTH 16
@@ -26,6 +29,11 @@
 
 class CQuestionBlock : public CGameObject {
 private:
+
+	float ay;
+
+	float y_init;
+
 	CCoin* coin;
 	CPowerUp* pu;
 	ULONGLONG up_start;
@@ -35,6 +43,10 @@ public:
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
+
+	virtual void OnNoCollision(DWORD dt);
 	virtual void SetState(int state);
 	int GetTypeBlock() { return type_block; }
+	void ActiveEvents();
+
 };

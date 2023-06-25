@@ -94,7 +94,7 @@ void CPowerUp::SetState(int state)
 		ay = 0;
 		vx = 0;
 		vy = -MUSHROOM_UP_SPEED;
-		y_target = y - 14;
+		y_target = y - MUSHROOM_BBOX_HEIGHT;
 		break;
 	}
 }
