@@ -33,17 +33,19 @@ protected:
 
 	bool isDeleted; 
 	bool isSolid;
+	bool isFirstLoad;
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void SetSolid(bool solid) { this->isSolid = solid; }
 
 	void SetNx(int nx) { this->nx = nx; }
-
+	void SetFirstLoad(bool isFirstLoad) { this->isFirstLoad = isFirstLoad; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	bool GetSolid() { return this->isSolid; }
 	int GetState() { return this->state; }
+	bool GetFirstLoad() { return this->isFirstLoad; }
 
 	int	 GetNx() { return this->nx; }
 
@@ -53,7 +55,7 @@ public:
 	void RenderBoundingBox();
 
 	CGameObject();
-	CGameObject(float x, float y) :CGameObject() { this->x = x; this->y = y; }
+	CGameObject(float x, float y) :CGameObject() { this->x = x; this->y = y; isFirstLoad = false; }
 
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
