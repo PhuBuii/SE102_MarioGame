@@ -25,6 +25,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
+	isEnableRenderBoundingBox = false;
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 }

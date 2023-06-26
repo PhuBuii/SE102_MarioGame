@@ -17,6 +17,7 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	float x_mario, y_mario;
+	bool isEnableRenderBoundingBox;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -40,7 +41,8 @@ public:
 	void AddObject(CGameObject* obj);
 	void Clear();
 	void PurgeDeletedObjects();
-
+	void SetIsEnableRenderBoundingBox(bool enableRender) { this->isEnableRenderBoundingBox = enableRender; }
+	int GetIsEnableRenderBoundingBox() { return isEnableRenderBoundingBox; }
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
 

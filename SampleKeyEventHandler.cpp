@@ -9,7 +9,10 @@
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
+	LPPLAYSCENE currentScene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = (CMario*)currentScene->GetPlayer();
+
+	bool enableRenderBoundingBox = currentScene->GetIsEnableRenderBoundingBox();
 	LPGAME game = CGame::GetInstance();
 	switch (KeyCode)
 	{
@@ -28,6 +31,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_0:
 		mario->SetState(MARIO_STATE_DIE);
+		break;
+	case DIK_SPACE: // Turn on/off rendering bounding box
+		currentScene->SetIsEnableRenderBoundingBox(!enableRenderBoundingBox);
 		break;
 	case DIK_R: // reset
 		CGame::GetInstance()->GetCurrentScene()->Unload();
