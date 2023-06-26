@@ -34,11 +34,14 @@
 
 #define PARAGOOMBA_STATE_WING_FLYING 410
 #define PARAGOOMBA_STATE_WING_WALKING 411
+#define PARAGOOMBA_STATE_WING_JUMPING 412
 
 #define PARAGOOMBA_UP_SPEED 0.02f
+#define PARAGOOMBA_JUMP_SPEED 0.06f
 
 #define PARAGOOMBA_FLYING_TIMEOUT 1000
 #define PARAGOOMBA_WAIT_TIMEOUT 1000
+#define PARAGOOMBA_JUMP_TIMEOUT 500
 
 #define ID_ANI_PARAGOOMBA_WALKING 5100
 #define ID_ANI_PARAGOOMBA_DIE 5101
@@ -55,6 +58,9 @@ protected:
 
 	ULONGLONG die_start;
 	ULONGLONG bounce_start;
+	ULONGLONG fly_start, wait_start, jump_start;
+
+	int jump_count;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
