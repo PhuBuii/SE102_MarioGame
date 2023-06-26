@@ -119,6 +119,8 @@ public:
 
 
 class CFireBall : public CVenusFireTrap {
+protected:
+	float cx, cy, cw, ch;
 public:
 	CFireBall(float x, float y, float x_mario, float y_mario, int c) : CVenusFireTrap(x, y, c)
 	{

@@ -48,7 +48,7 @@ CPlatform::CPlatform(float x, float y,
 }
 void CPlatform::RenderBoundingBox()
 {
-	if (((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIsEnableRenderBoundingBox() == true) {
+	if (((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetIsEnableRenderBoundingBox() == 1) {
 		D3DXVECTOR3 p(x, y, 0);
 		RECT rect;
 

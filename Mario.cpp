@@ -276,7 +276,7 @@ void CMario::MarioIsAttacked() {
 	}
 }
 void CMario::MarioHolding() {
-	float direction = (vx >= 0) ? 1 : -1;
+	int direction = (vx >= 0) ? 1 : -1;
 	if (vx == 0) direction = (nx >= 0) ? 1 : -1;
 	dynamic_cast<CKoopas*>(enemies)->SetOnHand(true);
 	enemies->SetSpeed(vx, vy);
@@ -703,7 +703,7 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
-	else if (this->level == MARIO_LEVEL_SMALL && isTransform == true) {
+	else if (this->level == MARIO_LEVEL_SMALL && isTransform == 1) {
 		y -= MARIO_SMALL_BBOX_HEIGHT / 2;
 	}
 	if (!isTransform) {
