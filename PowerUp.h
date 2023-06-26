@@ -9,13 +9,14 @@
 
 #define MUSHROOM_WALKING_STATE	1
 #define POWER_UP_HIDDEN_STATE 2
-#define MUSHROOM_UP_STATE 3
+#define MUSHROOM_UP_STATE_LEFT 3
+#define MUSHROOM_UP_STATE_RIGHT 4
 
 #define MUSHROOM_WALKING_SPEED	0.05f
 #define MUSHROOM_UP_SPEED 0.025f
 
 #define MUSHROOM_BBOX_WIDTH 14
-#define MUSHROOM_BBOX_HEIGHT 11
+#define MUSHROOM_BBOX_HEIGHT 12
 
 class CPowerUp : public CGameObject
 {
@@ -24,12 +25,12 @@ protected:
 	float ax;
 	float ay;
 	int power_up_direction = 1;
-
+	float m_x, m_y, u_x, u_y;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return state != POWER_UP_HIDDEN_STATE && state != MUSHROOM_UP_STATE; };
+	virtual int IsCollidable() { return state != POWER_UP_HIDDEN_STATE && (state != MUSHROOM_UP_STATE_LEFT || state != MUSHROOM_UP_STATE_RIGHT); };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

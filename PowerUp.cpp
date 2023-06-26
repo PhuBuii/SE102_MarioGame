@@ -22,7 +22,7 @@ void CPowerUp::OnNoCollision(DWORD dt)
 		x += vx * dt;
 		y += vy * dt;
 	}
-	else if (state == MUSHROOM_UP_STATE) {
+	else if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) {
 		y += vy * dt;
 	}
 };
@@ -32,18 +32,9 @@ void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CPowerUp*>(e->obj)) return;
 
-	if (state == MUSHROOM_UP_STATE) return;
+	if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) return;
 
-	if (dynamic_cast<CMario*>(e->obj)) {
-		float m_x, m_y;// Mario x,y
-		e->obj->GetPosition(m_x, m_y);
-		if (x > m_x) {
-			power_up_direction = -power_up_direction;
-		}
-		return;
-	}
-
-	if (e->ny != 0)
+	else if (e->ny != 0)
 	{
 		vy = 0;
 	}
@@ -60,10 +51,9 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx += ax * dt;
 	}
 
-	if (y_target != -1 && state == MUSHROOM_UP_STATE && y <= y_target) {
+	if (y_target != -1 && (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) && y <= y_target) {
 		SetState(MUSHROOM_WALKING_STATE);
 	}
-
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -87,14 +77,22 @@ void CPowerUp::SetState(int state)
 	switch (state)
 	{
 	case MUSHROOM_WALKING_STATE:
-		vx = -MUSHROOM_WALKING_SPEED * power_up_direction;
+		vx = MUSHROOM_WALKING_SPEED * power_up_direction;
 		ay = MUSHROOM_GRAVITY;
 		break;
-	case MUSHROOM_UP_STATE:
+	case MUSHROOM_UP_STATE_LEFT:
 		ay = 0;
 		vx = 0;
 		vy = -MUSHROOM_UP_SPEED;
 		y_target = y - MUSHROOM_BBOX_HEIGHT;
+		power_up_direction = -1;
+		break;
+	case MUSHROOM_UP_STATE_RIGHT:
+		ay = 0;
+		vx = 0;
+		vy = -MUSHROOM_UP_SPEED;
+		y_target = y - MUSHROOM_BBOX_HEIGHT;
+		power_up_direction = 1;
 		break;
 	}
 }

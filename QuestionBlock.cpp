@@ -1,10 +1,12 @@
 #include "QuestionBlock.h"
+#include "Mario.h"
 
 CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, int type_block) : CGameObject(x, y) {
 	up_start = -1;
 	this->type_block = type_block;
 	this->ay = 0;
 	y_init = y;
+	POWERUP_STATE = MUSHROOM_UP_STATE_LEFT;
 	CGameObject::SetState(QUESTION_BLOCK_STATE);
 	coin = NULL;
 	pu = NULL;
@@ -46,11 +48,23 @@ void CQuestionBlock::ActiveEvents() {
 		coin->SetState(COIN_UP_STATE);
 		break;
 	case QBLOCK_TYPE_POWERUP:
-		pu->SetState(MUSHROOM_UP_STATE);
+		pu->SetState(POWERUP_STATE);
 		break;
 	}
 }
 
+void CQuestionBlock::OnCollisionWith(LPCOLLISIONEVENT e) {
+	if (!e->obj->IsBlocking()) return;
+	if (dynamic_cast<CMario*>(e->obj)) {
+		float m_x, m_y;
+		CMario* mario = dynamic_cast<CMario*>(e->obj);
+		mario->GetPosition(m_x, m_y);
+		if (m_x <= x)
+			POWERUP_STATE = MUSHROOM_UP_STATE_LEFT;
+		else
+			POWERUP_STATE = MUSHROOM_UP_STATE_RIGHT;
+	}
+}
 void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	vy += ay * dt;

@@ -22,7 +22,7 @@
 
 #define QBLOCK_WIDTH 16
 #define QBLOCK_BBOX_WIDTH 16
-#define QBLOCK_BBOX_HEIGHT 16
+#define QBLOCK_BBOX_HEIGHT 17
 
 #define QBLOCK_TYPE_COIN 1
 #define QBLOCK_TYPE_POWERUP 2
@@ -33,6 +33,7 @@ private:
 	float ay;
 
 	float y_init;
+	int POWERUP_STATE;
 
 	CCoin* coin;
 	CPowerUp* pu;
@@ -43,7 +44,7 @@ public:
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-
+	void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);
 	virtual void SetState(int state);
 	int GetTypeBlock() { return type_block; }
