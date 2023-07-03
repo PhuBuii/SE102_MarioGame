@@ -5,7 +5,8 @@
 #define MUSHROOM_GRAVITY 0.002f
 #define POWER_UP_DIRECTION 1
 
-#define ID_ANI_MUSHROOM 14000
+#define ID_ANI_POWERUP_MUSHROOM 14001
+#define ID_ANI_MUSHROOM_1UP 14000
 
 #define MUSHROOM_WALKING_STATE	1
 #define POWER_UP_HIDDEN_STATE 2
@@ -15,15 +16,18 @@
 #define MUSHROOM_WALKING_SPEED	0.05f
 #define MUSHROOM_UP_SPEED 0.025f
 
-#define MUSHROOM_BBOX_WIDTH 14
+#define MUSHROOM_BBOX_WIDTH 16
 #define MUSHROOM_BBOX_HEIGHT 12
 
+#define MUSHROOM_SUPER			1
+#define MUSHROOM_1UP			2
 class CPowerUp : public CGameObject
 {
 protected:
 	float y_target;
 	float ax;
 	float ay;
+	int type;
 	int power_up_direction = 1;
 	float m_x, m_y, u_x, u_y;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

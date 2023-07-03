@@ -62,7 +62,7 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPowerUp::Render()
 {
-	int aniId = ID_ANI_MUSHROOM;
+	int aniId = ID_ANI_POWERUP_MUSHROOM;
 
 	if (state != POWER_UP_HIDDEN_STATE) {
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);

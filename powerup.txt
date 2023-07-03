@@ -3,7 +3,9 @@
 # Mushroom
 92001	300	189	315	206	20
 
+93001	286	120	301	135	26
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 14000	92001	100
+14001	93001	100
