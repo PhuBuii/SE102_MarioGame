@@ -144,7 +144,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_POWER_UP:
 	{
-		obj = new CPowerUp(x, y);
+		obj = new CPowerUp(x, y, MUSHROOM_SUPER);
+		break;
+	}
+	case OBJECT_TYPE_MUSHROOM_1UP:
+	{
+		obj = new CPowerUp(x, y, MUSHROOM_1UP);
 		break;
 	}
 	case OBJECT_TYPE_PIPE: {

@@ -5,8 +5,8 @@
 #define MUSHROOM_GRAVITY 0.002f
 #define POWER_UP_DIRECTION 1
 
-#define ID_ANI_POWERUP_MUSHROOM 14001
-#define ID_ANI_MUSHROOM_1UP 14000
+#define ID_ANI_POWERUP_MUSHROOM 14000
+#define ID_ANI_MUSHROOM_1UP 14001
 
 #define MUSHROOM_WALKING_STATE	1
 #define POWER_UP_HIDDEN_STATE 2
@@ -41,6 +41,6 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CPowerUp(float x, float y);
+	CPowerUp(float x, float y,int type);
 	virtual void SetState(int state);
 };

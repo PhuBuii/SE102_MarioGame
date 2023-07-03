@@ -17,11 +17,15 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		objects.push_back(coin);
 		break;
 	case QBLOCK_TYPE_POWERUP:
-		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2);
+		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2, MUSHROOM_SUPER);
 		pu->SetState(POWER_UP_HIDDEN_STATE);
 		objects.push_back(pu);
 		break;
-
+	case QBLOCK_TYPE_1UP:
+		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2, MUSHROOM_1UP);
+		pu->SetState(POWER_UP_HIDDEN_STATE);
+		objects.push_back(pu);
+		break;
 	}
 }
 

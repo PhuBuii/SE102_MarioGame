@@ -1,10 +1,11 @@
 #include "PowerUp.h"
 #include "Mario.h"
 
-CPowerUp::CPowerUp(float x, float y) : CGameObject(x, y) {
+CPowerUp::CPowerUp(float x, float y,int type) : CGameObject(x, y) {
 	this->ax = 0;
 	this->ay = MUSHROOM_GRAVITY;
 	y_target = -1;
+	this->type = type;
 	SetState(MUSHROOM_WALKING_STATE);
 }
 
@@ -62,8 +63,10 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPowerUp::Render()
 {
-	int aniId = ID_ANI_POWERUP_MUSHROOM;
-
+	int aniId = ID_ANI_MUSHROOM_1UP;
+	if (type == MUSHROOM_SUPER)
+		aniId = ID_ANI_POWERUP_MUSHROOM;
+	
 	if (state != POWER_UP_HIDDEN_STATE) {
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}

@@ -26,6 +26,7 @@
 
 #define QBLOCK_TYPE_COIN 1
 #define QBLOCK_TYPE_POWERUP 2
+#define QBLOCK_TYPE_1UP	3
 
 class CQuestionBlock : public CGameObject {
 private:
