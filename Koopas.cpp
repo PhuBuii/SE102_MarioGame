@@ -16,7 +16,7 @@ CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 	shell_wait_rotate_start = -1;
 	SetState(KOOPAS_STATE_WALKING);
 
-	float direction = nx > 0 ? 1 : -1;
+	int direction = nx > 0 ? 1 : -1;
 
 	wall = new CInvisibleWall(x + direction * KOOPAS_BBOX_WIDTH, y, KOOPAS_BBOX_WIDTH, KOOPAS_BBOX_HEIGHT);
 
