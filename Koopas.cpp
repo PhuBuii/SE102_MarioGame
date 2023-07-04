@@ -1,9 +1,11 @@
 #include "Koopas.h"
 #include "QuestionBlock.h"
 #include "Mario.h"
-#include "Goomba.h"
+#include "Platform.h"
 #include "Piranha.h"
-#include "Brick.h"
+#include "Goomba.h"
+#include "PlayScene.h"
+
 
 CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 {
@@ -13,6 +15,13 @@ CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 	isOnHand = false;
 	shell_wait_rotate_start = -1;
 	SetState(KOOPAS_STATE_WALKING);
+
+	float direction = nx > 0 ? 1 : -1;
+
+	wall = new CInvisibleWall(x + direction * KOOPAS_BBOX_WIDTH, y, KOOPAS_BBOX_WIDTH, KOOPAS_BBOX_HEIGHT);
+
+	wall->SetSpeed(vx, KOOPAS_WALKING_SPEED);
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->AddObject(wall);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -110,6 +119,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+	if (dynamic_cast<CInvisibleWall*>(e->obj)) return;
 	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
