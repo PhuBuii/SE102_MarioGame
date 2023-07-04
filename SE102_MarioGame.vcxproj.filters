@@ -235,6 +235,9 @@
     <Image Include="textures\misc_5.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="textures\enemies_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt">
