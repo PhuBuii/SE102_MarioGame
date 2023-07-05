@@ -1,4 +1,7 @@
 #include "Brick.h"
+#include "Game.h"
+#include "Coin.h"
+#include "PlayScene.h"
 
 void CBrick::Render()
 {
@@ -35,4 +38,13 @@ void CGlassBrick::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(id_ani)->Render(x, y);
 	//RenderBoundingBox();
+}
+void CGlassBrick::BrickTransformCoin() {
+	if (containObject == GLASSBRICK_CONTAIN_COIN
+		&& (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
+		this->Delete();
+
+		CGameObject* coin = new CCoin(x, y, COIN_TRANSFORMED_FROM_BRICK);
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetObjects().push_back(coin);
+	}
 }

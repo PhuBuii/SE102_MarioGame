@@ -1,6 +1,10 @@
 #include "Coin.h"
+#include "Game.h"
+#include "PlayScene.h"
+#include "Brick.h"
 
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	if (remain_start) CoinTransformBrick();
 	if (state == COIN_UP_STATE) {
 		if (y_start_up - y > COIN_UP_DISTANCE) {
 			vy = -vy;
@@ -46,4 +50,13 @@ void CCoin::SetState(int state) {
 		y_start_up = y;
 		vy = -COIN_SPEED_MOVE;
 	}
+}
+void CCoin::CoinTransformBrick() {
+	if (GetTickCount64() - remain_start >= COIN_TIMEOUT)
+		if ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
+			this->Delete();
+
+			CGameObject* brick = new CGlassBrick(x, y);
+			((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetObjects().push_back(brick);
+		}
 }

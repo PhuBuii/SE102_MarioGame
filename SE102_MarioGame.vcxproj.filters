@@ -111,6 +111,9 @@
     <ClInclude Include="InvisibleWall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PSwitch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -195,6 +198,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InvisibleWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PSwitch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -292,6 +298,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="plant.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="pswitch.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

@@ -44,6 +44,7 @@ public:
 	void SetIsEnableRenderBoundingBox(bool enableRender) { this->isEnableRenderBoundingBox = enableRender; }
 	int GetIsEnableRenderBoundingBox() { return isEnableRenderBoundingBox; }
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+	vector<LPGAMEOBJECT>& GetObjects() { return objects; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

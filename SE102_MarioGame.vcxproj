@@ -153,6 +153,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PSwitch.h" />
     <ClInclude Include="QuestionBlock.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="PSwitch.cpp" />
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -222,6 +224,7 @@
     <Text Include="pipe.txt" />
     <Text Include="plant.txt" />
     <Text Include="powerup.txt" />
+    <Text Include="pswitch.txt" />
     <Text Include="qblock.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
