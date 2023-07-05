@@ -126,8 +126,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			qb->SetState(EMPTY_BLOCK_STATE);
 		}
 	}
-	if (dynamic_cast<CBrick*>(e->obj)) {
-		CBrick* brick = (CBrick*)e->obj;
+	if (dynamic_cast<CGlassBrick*>(e->obj)) {
+		CGlassBrick* brick = (CGlassBrick*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			brick->SetState(ID_STATE_BREAK_BRICK);
 			vx = -vx;

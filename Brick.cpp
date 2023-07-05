@@ -26,3 +26,13 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	r = l + BRICK_BBOX_WIDTH;
 	b = t + BRICK_BBOX_HEIGHT;
 }
+void CGlassBrick::Render()
+{
+	int id_ani = ID_ANI_GLASS_BRICK;
+	if (state == ID_STATE_BREAK_BRICK) {
+		id_ani = ID_ANI_BREAK_BRICK;
+	}
+	CAnimations* animations = CAnimations::GetInstance();
+	animations->Get(id_ani)->Render(x, y);
+	//RenderBoundingBox();
+}

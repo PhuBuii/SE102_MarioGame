@@ -9,6 +9,7 @@
 
 #define ID_ANI_BRICK 2003
 #define	ID_ANI_BREAK_BRICK	2004
+#define ID_ANI_GLASS_BRICK 2005
 
 #define BRICK_WIDTH 16
 #define BRICK_BBOX_WIDTH 16
@@ -39,3 +40,19 @@ public:
 	}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 };
+class CGlassBrick : public CBrick {
+public:
+	CGlassBrick(float x, float y) : CBrick(x, y) { disappear_time = -1; }
+	void Render();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+		if (state == ID_STATE_BREAK_BRICK && GetTickCount64() - disappear_time > BRICK_DISAPPEAR_TIME_ANIMATION) {
+			isDeleted = true;
+			return;
+		}
+		CGameObject::Update(dt, coObjects);
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+	}
+	virtual int IsBlocking() {
+		return state != ID_STATE_BREAK_BRICK;
+	}
+};	
