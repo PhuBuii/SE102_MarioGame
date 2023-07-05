@@ -74,24 +74,9 @@ void CVenusFireTrap::Render()
 {
 	int aniID = -1;
 	if (color == 0) {
-		if (!IsMarioHigher()) {
-			if (IsMarioOnLeft()) {
-				aniID = ID_ANI_RED_VENUS_MOVE_HEAD_TOP_LEFT;
-			}
-			else {
-				aniID = ID_ANI_RED_VENUS_MOVE_HEAD_TOP_RIGHT;
-			}
-		}
-		else {
-			if (IsMarioOnLeft()) {
-				aniID = ID_ANI_RED_VENUS_MOVE_HEAD_BOTTOM_LEFT;
-			}
-			else {
-				aniID = ID_ANI_RED_VENUS_MOVE_HEAD_BOTTOM_RIGHT;
-			}
-		}
+		
 		if (state == VENUS_STATE_IDLE) {
-			if (IsMarioHigher()) {
+			if (!IsMarioHigher()) {
 				if (IsMarioOnLeft()) {
 					aniID = ID_ANI_RED_VENUS_LOOK_UP_LEFT;
 				}
@@ -105,6 +90,24 @@ void CVenusFireTrap::Render()
 				}
 				else {
 					aniID = ID_ANI_RED_VENUS_LOOK_DOWN_RIGHT;
+				}
+			}
+		}
+		else {
+			if (!IsMarioHigher()) {
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_RED_VENUS_MOVE_HEAD_TOP_LEFT;
+				}
+				else {
+					aniID = ID_ANI_RED_VENUS_MOVE_HEAD_TOP_RIGHT;
+				}
+			}
+			else {
+				if (IsMarioOnLeft()) {
+					aniID = ID_ANI_RED_VENUS_MOVE_HEAD_BOTTOM_LEFT;
+				}
+				else {
+					aniID = ID_ANI_RED_VENUS_MOVE_HEAD_BOTTOM_RIGHT;
 				}
 			}
 		}
