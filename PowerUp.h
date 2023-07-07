@@ -12,6 +12,8 @@
 #define POWER_UP_HIDDEN_STATE 2
 #define MUSHROOM_UP_STATE_LEFT 3
 #define MUSHROOM_UP_STATE_RIGHT 4
+#define MUSHROOM_1UP_STATE 5
+#define MUSHROOM_WAIT_STATE 6
 
 #define MUSHROOM_WALKING_SPEED	0.05f
 #define MUSHROOM_UP_SPEED 0.025f
@@ -34,7 +36,7 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return state != POWER_UP_HIDDEN_STATE && (state != MUSHROOM_UP_STATE_LEFT || state != MUSHROOM_UP_STATE_RIGHT); };
+	virtual int IsCollidable() { return (state != POWER_UP_HIDDEN_STATE) && (state != MUSHROOM_UP_STATE_LEFT || state != MUSHROOM_UP_STATE_RIGHT); };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

@@ -22,7 +22,7 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		objects.push_back(pu);
 		break;
 	case QBLOCK_TYPE_1UP:
-		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2, MUSHROOM_1UP);
+		pu = new CPowerUp(x, y - 15, MUSHROOM_1UP);
 		pu->SetState(POWER_UP_HIDDEN_STATE);
 		objects.push_back(pu);
 		break;
@@ -54,7 +54,11 @@ void CQuestionBlock::ActiveEvents() {
 	case QBLOCK_TYPE_POWERUP:
 		pu->SetState(POWERUP_STATE);
 		break;
+	case QBLOCK_TYPE_1UP:
+		pu->SetState(MUSHROOM_1UP_STATE);
+		break;
 	}
+
 }
 
 void CQuestionBlock::OnCollisionWith(LPCOLLISIONEVENT e) {

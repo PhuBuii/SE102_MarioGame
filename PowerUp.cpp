@@ -4,9 +4,8 @@
 CPowerUp::CPowerUp(float x, float y,int type) : CGameObject(x, y) {
 	this->ax = 0;
 	this->ay = MUSHROOM_GRAVITY;
-	y_target = -1;
 	this->type = type;
-	SetState(MUSHROOM_WALKING_STATE);
+	y_target = -1;
 }
 
 void CPowerUp::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -23,7 +22,7 @@ void CPowerUp::OnNoCollision(DWORD dt)
 		x += vx * dt;
 		y += vy * dt;
 	}
-	else if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) {
+	else if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT || state == MUSHROOM_1UP_STATE) {
 		y += vy * dt;
 	}
 };
@@ -54,6 +53,9 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (y_target != -1 && (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) && y <= y_target) {
 		SetState(MUSHROOM_WALKING_STATE);
+	}
+	if (state == MUSHROOM_1UP_STATE && y < y_target && y_target != -1) {
+		SetState(MUSHROOM_WAIT_STATE);
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -96,6 +98,13 @@ void CPowerUp::SetState(int state)
 		vy = -MUSHROOM_UP_SPEED;
 		y_target = y - MUSHROOM_BBOX_HEIGHT;
 		power_up_direction = 1;
+		break;
+	case MUSHROOM_1UP_STATE:
+		y_target = y - MUSHROOM_BBOX_HEIGHT;
+		break;
+	case MUSHROOM_WAIT_STATE:
+		ay = 0;
+		vy = 0;
 		break;
 	}
 }
