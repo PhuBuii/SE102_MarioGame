@@ -11,6 +11,7 @@
 #define ID_ANI_BRICK 2003
 #define	ID_ANI_BREAK_BRICK	2004
 #define ID_ANI_GLASS_BRICK 2005
+#define ID_ANI_GLASS_BRICK_KNOWN 2006
 
 #define BRICK_WIDTH 16
 #define BRICK_BBOX_WIDTH 16
@@ -19,7 +20,7 @@
 #define BRICK_DISAPPEAR_TIME_ANIMATION 300
 
 #define GLASSBRICK_CONTAIN_COIN					0
-#define GLASSBRICK_CONTAIN_SWITCH				1
+#define GLASSBRICK_CONTAIN_PSWITCH				1
 
 class CBrick : public CGameObject {
 protected:
@@ -47,9 +48,15 @@ public:
 class CGlassBrick : public CBrick {
 protected:
 	int containObject;
+	int idAni;
+	bool broken;
+	bool known;
 public:
 	CGlassBrick(float x, float y, int contain_object = 0) : CBrick(x, y) {
-		containObject = contain_object;
+		this->containObject = contain_object;
+		idAni = ID_ANI_GLASS_BRICK;
+		broken = false;
+		known = false;
 	 disappear_time = -1; }
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
@@ -64,4 +71,17 @@ public:
 		return state != ID_STATE_BREAK_BRICK;
 	}
 	void BrickTransformCoin();
+	void BrickBreak();
+	int getContainObject() {
+		return containObject;
+	}
+	bool getBroken() {
+		return broken;
+	}
+	void setKnown() {
+		known = true;
+	}
+	bool getKnown() {
+		return known;
+	}
 };	

@@ -129,7 +129,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CGlassBrick*>(e->obj)) {
 		CGlassBrick* brick = (CGlassBrick*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
-			brick->SetState(ID_STATE_BREAK_BRICK);
+			brick->BrickBreak();
 			vx = -vx;
 		}
 	}

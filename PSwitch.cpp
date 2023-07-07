@@ -9,10 +9,20 @@ void CPSwitch::Render() {
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(aniId)->Render(x, y);
 
-	//RenderBoundingBox();
+	/*RenderBoundingBox();*/
 }
 
 void CPSwitch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	if (y <= y_rise) {
+		/*y += vy * dt;*/
+		SetState(PSWITCH_STATE_STATIC);
+	}
+	/*vy += ay * dt;*/
+	y += vy * dt;
+	/*x += vx * dt; */
+
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CPSwitch::GetBoundingBox(float& l, float& t, float& r, float& b) {
@@ -43,3 +53,18 @@ void CPSwitch::IsActived() {
 				dynamic_cast<CGlassBrick*>(objects[i])->BrickTransformCoin();
 	}
 }
+
+void CPSwitch::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case  PSWITCH_STATE_RISING:
+		vy = -PSWITCH_RISING_SPEED;
+		break;
+	case  PSWITCH_STATE_STATIC:
+		vy = 0;
+		break;
+	}
+}
+

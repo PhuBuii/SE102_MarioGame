@@ -31,13 +31,12 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 }
 void CGlassBrick::Render()
 {
-	int id_ani = ID_ANI_GLASS_BRICK;
 	if (state == ID_STATE_BREAK_BRICK) {
-		id_ani = ID_ANI_BREAK_BRICK;
+		idAni = ID_ANI_BREAK_BRICK;
 	}
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(id_ani)->Render(x, y);
-	//RenderBoundingBox();
+	animations->Get(idAni)->Render(x, y);
+	RenderBoundingBox();
 }
 void CGlassBrick::BrickTransformCoin() {
 	if (containObject == GLASSBRICK_CONTAIN_COIN
@@ -46,5 +45,15 @@ void CGlassBrick::BrickTransformCoin() {
 
 		CGameObject* coin = new CCoin(x, y, COIN_TRANSFORMED_FROM_BRICK);
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetObjects().push_back(coin);
+	}
+}
+void CGlassBrick::BrickBreak()
+{	
+	if (containObject != 1) {
+		SetState(ID_STATE_BREAK_BRICK);
+	}
+	else {
+		idAni = ID_ANI_GLASS_BRICK_KNOWN;
+		broken = true;
 	}
 }

@@ -166,6 +166,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPowerUp(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
+	void OnCollisionWithPSwitch(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

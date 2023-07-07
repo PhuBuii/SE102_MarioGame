@@ -16,7 +16,7 @@
 #include "TigerBrick.h"
 #include "Piranha.h"
 #include "debug.h"
-
+#include "PSwitch.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -135,7 +135,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TIGER_BRICK: obj = new CTigerBrick(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-	case OBJECT_TYPE_GLASS_BRICK: obj = new CGlassBrick(x, y); break;
+	case OBJECT_TYPE_GLASS_BRICK: obj = new CGlassBrick(x, y, atoi(tokens[3].c_str())); break;
+	case OBJECT_TYPE_PSWITCH:
+		obj = new CPSwitch(x, y);
+		DebugOut(L"create pswitch\n");
+		break;
 	case OBJECT_TYPE_QUESTION_BLOCK:
 	{
 		int type_block = atoi(tokens[3].c_str());
@@ -345,6 +349,17 @@ void CPlayScene::Update(DWORD dt)
 				venus->IncreaseFireBall();
 				venus->GetPosition(venus_x, venus_y);
 				objects.insert(objects.begin() + i, new CFireBall(venus_x, venus_y - VENUS_BBOX_HEIGHT / 3, x_mario, y_mario,0));
+			}
+		}
+		else if (dynamic_cast<CGlassBrick*>(objects[i])) {
+			CGlassBrick* glassBrick = dynamic_cast<CGlassBrick*>(objects[i]);
+			if (glassBrick->getContainObject() == 1 && glassBrick->getBroken() && !glassBrick->getKnown()) {
+				glassBrick->setKnown();
+
+				float x, y;
+
+				glassBrick->GetPosition(x, y);
+				objects.insert(objects.begin() + i, new CPSwitch(x, y));
 			}
 		}
 

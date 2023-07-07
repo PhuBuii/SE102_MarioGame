@@ -12,6 +12,7 @@
 #include "QuestionBlock.h"
 #include "PowerUp.h"
 #include "Piranha.h"
+#include "PSwitch.h"
 
 #include "Collision.h"
 
@@ -128,8 +129,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranha(e);
 	else if (dynamic_cast<CFireBall*>(e->obj))
 		OnCollisionWithFireBall(e);
+	else if (dynamic_cast<CPSwitch*>(e->obj))
+		OnCollisionWithPSwitch(e);
 }
-
+void CMario::OnCollisionWithPSwitch(LPCOLLISIONEVENT e)
+{
+	CPSwitch* pswitch = dynamic_cast<CPSwitch*>(e->obj);
+	pswitch->IsActived();
+}
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
 	if (untouchable == 0)
