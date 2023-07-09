@@ -343,6 +343,9 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
 
 void CMario::OnCollisionWithPowerUp(LPCOLLISIONEVENT e) {
 	CPowerUp* pu = (CPowerUp*)e->obj;
+	if (pu->GetState() == MUSHROOM_WAIT_STATE) {
+		pu->Delete();
+	}
 	if (pu->GetState() == MUSHROOM_WALKING_STATE) {
 		if (level == MARIO_LEVEL_SMALL) {
 			isTransform = true;
