@@ -108,7 +108,7 @@
     <ClInclude Include="Piranha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InvisibleWall.h">
+    <ClInclude Include="PhaseChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PSwitch.h">
@@ -197,7 +197,7 @@
     <ClCompile Include="Piranha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InvisibleWall.cpp">
+    <ClCompile Include="PhaseChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PSwitch.cpp">

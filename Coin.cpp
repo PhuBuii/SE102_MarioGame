@@ -30,6 +30,10 @@ void CCoin::Render()
 	if (state == COIN_DISAPPEAR) {
 		id_ani = ID_ANI_COIN_DISAPPEAR;
 	}
+	if(state == COIN_NORMAL_STATE)
+	{
+		id_ani = ID_ANI_NOACTION;
+	}
 	if (state != COIN_HIDDEN_STATE) {
 		CAnimations* animations = CAnimations::GetInstance();
 		animations->Get(id_ani)->Render(x, y);

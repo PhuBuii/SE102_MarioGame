@@ -5,6 +5,7 @@
 #include "Animations.h"
 
 #define ID_ANI_COIN 11000
+#define ID_ANI_NOACTION	11001
 
 #define ID_ANI_COIN_DISAPPEAR 11100
 

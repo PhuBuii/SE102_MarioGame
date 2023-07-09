@@ -18,7 +18,7 @@
 #define PSWITCH_RISING_SPEED 0.01f
 
 #define BRICK_BBOX_WIDTH 15
-#define BRICK_BBOX_HEIGHT 15
+#define BRICK_BBOX_HEIGHT 16
 
 class CPSwitch : public CGameObject
 {

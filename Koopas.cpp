@@ -17,11 +17,10 @@ CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 	SetState(KOOPAS_STATE_WALKING);
 
 	int direction = nx > 0 ? 1 : -1;
+	phaseCheck = new CPhaseChecker(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y,
+		KOOPAS_TROOPA_PHASE_CHECK_WIDTH, KOOPAS_TROOPA_PHASE_CHECK_HEIGHT);
+	phaseCheck->SetSpeed(0, KOOPAS_WALKING_SPEED);
 
-	wall = new CInvisibleWall(x + direction * KOOPAS_BBOX_WIDTH, y, KOOPAS_BBOX_WIDTH, KOOPAS_BBOX_HEIGHT);
-
-	wall->SetSpeed(vx, KOOPAS_WALKING_SPEED);
-	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->AddObject(wall);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -119,7 +118,6 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 	}
-	if (dynamic_cast<CInvisibleWall*>(e->obj)) return;
 	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
@@ -148,7 +146,33 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->nx != 0)
 	{
 		vx = -vx;
+		float p_vx, p_vy;
+		phaseCheck->GetSpeed(p_vx, p_vy);
+
+		if (p_vx >= this->vx)
+			phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH, y);
+		else
+			phaseCheck->SetPosition(x + KOOPAS_BBOX_WIDTH, y);
 	}
+	float px, py;
+	phaseCheck->GetPosition(px, py);
+
+	if (py - this->y > 10 && state != KOOPAS_STATE_SHELL) {
+		vx = -vx;
+
+		if (state == KOOPAS_WALK_TO_RIGHT) {
+			SetState(KOOPAS_WALK_TO_LEFT);
+		}
+		else if (state == KOOPAS_WALK_TO_LEFT) {
+			SetState(KOOPAS_WALK_TO_RIGHT);
+		}
+
+		if (px <= this->x)
+			phaseCheck->SetPosition(x + KOOPAS_BBOX_WIDTH, y);
+		else phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH, y);
+	}
+
+	phaseCheck->SetSpeed(vx, 1);
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -186,7 +210,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-
+	if (state == KOOPAS_STATE_WALKING_LEFT ) phaseCheck->Update(dt, coObjects);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -195,11 +219,16 @@ int CKoopas::GetAni() {
 	int aniId = -1;
 	if(color == 0)
 		switch (state) {
-		case KOOPAS_STATE_WALKING:
-			if (vx < 0)
+		case KOOPAS_STATE_WALKING_LEFT:
+			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_LEFT;
-			else
+				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);
+			}
+		case KOOPAS_STATE_WALKING_RIGHT:
+			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_RIGHT;
+				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);
+			}
 			break;
 		case KOOPAS_STATE_SHELL_IDLE:
 			aniId = ID_ANI_RED_KOOPAS_SHELL_IDLE;

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "InvisibleWall.h"
+#include "PhaseChecker.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.03f
@@ -19,6 +19,7 @@
 #define KOOPAS_SHELL_TRANSFORM_ROTATE_TIME_OUT 200
 
 #define KOOPAS_STATE_WALKING 100
+#define KOOPAS_STATE_WALKING_LEFT 101
 #define KOOPAS_STATE_SHELL_IDLE	200
 #define KOOPAS_STATE_SHELL_ROTATE	300
 #define KOOPAS_STATE_SHELL_TRANSFORM_WALKING	400
@@ -39,6 +40,9 @@
 #define ID_ANI_GREEN_KOOPAS_SHELL_TRANSFORM_WALKING 10008
 #define ID_ANI_GREEN_KOOPAS_HIT_BY_KOOPAS 10009
 
+// Phase Checker
+#define KOOPAS_TROOPA_PHASE_CHECK_WIDTH				14
+#define KOOPAS_TROOPA_PHASE_CHECK_HEIGHT				24
 class CKoopas : public CGameObject
 {
 protected:
@@ -52,8 +56,7 @@ protected:
 	ULONGLONG shell_wait_rotate_start;
 	ULONGLONG shell_transform_start;
 	ULONGLONG die_start;
-	CInvisibleWall* wall;
-
+	CGameObject* phaseCheck;
 	int direction;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
