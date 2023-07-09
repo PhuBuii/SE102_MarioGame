@@ -14,12 +14,10 @@ CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 	this->ay = KOOPAS_GRAVITY;
 	isOnHand = false;
 	shell_wait_rotate_start = -1;
-	SetState(KOOPAS_STATE_WALKING);
+	if (c != KOOPAS_TYPE_GREEN_WING)	SetState(KOOPAS_STATE_WALKING);
+	else SetState(KOOPAS_STATE_FLY);
 
 	int direction = nx > 0 ? 1 : -1;
-	phaseCheck = new CPhaseChecker(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y,
-		KOOPAS_TROOPA_PHASE_CHECK_WIDTH, KOOPAS_TROOPA_PHASE_CHECK_HEIGHT);
-	phaseCheck->SetSpeed(0, KOOPAS_WALKING_SPEED);
 
 }
 
@@ -32,6 +30,12 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		top = y - KOOPAS_BBOX_HEIGHT / 2;
 		right = left + KOOPAS_BBOX_WIDTH;
 		bottom = top + KOOPAS_BBOX_HEIGHT;
+		break;
+	case KOOPAS_STATE_FLY:
+		left = x - KOOPAS_BBOX_WIDTH / 2;
+		top = y - KOOPAS_BBOX_HEIGHT_FLY / 2;
+		right = left + KOOPAS_BBOX_WIDTH;
+		bottom = top + KOOPAS_BBOX_HEIGHT_FLY;
 		break;
 	case KOOPAS_STATE_SHELL_IDLE:
 		left = x - KOOPAS_BBOX_WIDTH / 2;
@@ -146,24 +150,15 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (e->ny != 0)
 	{
-		vy = 0;
+		vy = 0; 
+		if (e->ny < 0 && state == KOOPAS_STATE_FLY) {
+			SetState(KOOPAS_STATE_FLY);
+		}
 	}
 	else if (e->nx != 0)
 	{
 		vx = -vx;
-		float p_vx, p_vy;
-		phaseCheck->GetSpeed(p_vx, p_vy);
-
-		if (p_vx >= this->vx)
-			phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH, y);
-		else
-			phaseCheck->SetPosition(x + KOOPAS_BBOX_WIDTH, y);
 	}
-	float px, py;
-	phaseCheck->GetPosition(px, py);
-
-
-	phaseCheck->SetSpeed(vx, 1);
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -214,12 +209,10 @@ int CKoopas::GetAni() {
 			if (vx < 0)
 			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_LEFT;
-				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);
 			}
 			else
 			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_RIGHT;
-				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);
 			}
 			break;
 		case KOOPAS_STATE_SHELL_IDLE:
@@ -260,6 +253,35 @@ int CKoopas::GetAni() {
 		case KOOPAS_HIT_BY_KOOPAS:
 			aniId = ID_ANI_GREEN_KOOPAS_HIT_BY_KOOPAS;
 		}
+	if(color ==2)
+		switch (state) {
+		case KOOPAS_STATE_WALKING:
+			if (vx < 0)
+				aniId = ID_ANI_GREEN_KOOPAS_WALKING_LEFT;
+			else
+				aniId = ID_ANI_GREEN_KOOPAS_WALKING_RIGHT;
+			break;
+		case KOOPAS_STATE_FLY:
+			if (vx < 0)
+				aniId = ID_ANI_KOOPAS_GREEN_FLY_LEFT;
+			else
+				aniId = ID_ANI_KOOPAS_GREEN_FLY_RIGHT;
+			break;
+		case KOOPAS_STATE_SHELL_IDLE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_STATE_SHELL_ROTATE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_ROTATE;
+			break;
+		case KOOPAS_STATE_SHELL_TRANSFORM_WALKING:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_TRANSFORM_WALKING;
+			break;
+		case KOOPAS_STATE_DIE:
+			aniId = ID_ANI_GREEN_KOOPAS_SHELL_IDLE;
+			break;
+		case KOOPAS_HIT_BY_KOOPAS:
+			aniId = ID_ANI_GREEN_KOOPAS_HIT_BY_KOOPAS;
+		}
 	return aniId;
 }
 
@@ -279,6 +301,13 @@ void CKoopas::SetState(int state)
 		shell_transform_start = -1;
 		vx = -KOOPAS_WALKING_SPEED;
 		vy = 0;
+		ay = KOOPAS_GRAVITY;
+		break;
+	case KOOPAS_STATE_FLY:
+		shell_transform_start = -1;
+		vx = -KOOPAS_WALKING_FLOAT_SPEED;
+		vy = -KOOPAS_FLY_SPEED;
+		ay = KOOPAS_FLOAT_GRAVITY;
 		break;
 	case KOOPAS_STATE_SHELL_IDLE:
 		if (this->state == KOOPAS_STATE_SHELL_ROTATE) {
