@@ -6,6 +6,13 @@ CPowerUp::CPowerUp(float x, float y,int type) : CGameObject(x, y) {
 	this->ay = MUSHROOM_GRAVITY;
 	this->type = type;
 	y_target = -1;
+	if (type == SUPER_LEAF) {
+		ax = MUSHROOM_WALKING_SPEED / 1000;
+		ay = MUSHROOM_GRAVITY / 6;
+		vx = MUSHROOM_WALKING_SPEED / 3;
+
+		start = GetTickCount64();
+	}
 }
 
 void CPowerUp::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -57,6 +64,13 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y_target != -1 && state == MUSHROOM_1UP_STATE && y <= y_target) {
 		SetState(MUSHROOM_WAIT_STATE);
 	}
+	if (state == LEAF_UP_STATE) {
+		OnNoCollision(dt);
+		IsDiversion();
+		vy = ay * dt;
+
+		return;
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -65,16 +79,23 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPowerUp::Render()
 {
-	int aniId = ID_ANI_MUSHROOM_1UP;
+	int aniId = ID_ANI_SUPER_LEAF;
 	if (type == MUSHROOM_SUPER)
 		aniId = ID_ANI_POWERUP_MUSHROOM;
-	
+	if (type == MUSHROOM_1UP)
+		int aniId = ID_ANI_MUSHROOM_1UP;
 	if (state != POWER_UP_HIDDEN_STATE) {
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
 	RenderBoundingBox();
 }
-
+void CPowerUp::IsDiversion()
+{
+	if (GetTickCount64() - start >= LEAF_DIVERT_TIME) {
+		vx = -vx;
+		start = GetTickCount64();
+	}
+}
 void CPowerUp::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -108,6 +129,8 @@ void CPowerUp::SetState(int state)
 	case MUSHROOM_WAIT_STATE:
 		ay = 0;
 		vy = 0;
+		break;
+	case LEAF_UP_STATE:
 		break;
 	}
 }
