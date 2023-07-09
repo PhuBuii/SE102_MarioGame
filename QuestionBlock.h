@@ -27,6 +27,7 @@
 #define QBLOCK_TYPE_COIN 1
 #define QBLOCK_TYPE_POWERUP 2
 #define QBLOCK_TYPE_1UP	3
+#define QBLOCK_TYPE_LEAF	4
 
 class CQuestionBlock : public CGameObject {
 private:
@@ -49,6 +50,7 @@ public:
 	virtual void OnNoCollision(DWORD dt);
 	virtual void SetState(int state);
 	int GetTypeBlock() { return type_block; }
+	void SetTypeBlock(int typeblock) { this->type_block = typeblock; }
 	void ActiveEvents();
 
 };

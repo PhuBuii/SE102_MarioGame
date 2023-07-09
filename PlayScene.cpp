@@ -152,6 +152,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPowerUp(x, y, MUSHROOM_SUPER);
 		break;
 	}
+	case OBJECT_TYPE_SUPER_LEAF:
+	{
+		obj = new CPowerUp(x, y, SUPER_LEAF);
+		break;
+	}
 	case OBJECT_TYPE_MUSHROOM_1UP:
 	{
 		obj = new CPowerUp(x, y, MUSHROOM_1UP);

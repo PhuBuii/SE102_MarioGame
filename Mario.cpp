@@ -335,6 +335,8 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
 	CQuestionBlock* qb = (CQuestionBlock*)e->obj;
+	if (qb->GetTypeBlock() == QBLOCK_TYPE_POWERUP && level == MARIO_LEVEL_BIG)
+		qb->SetTypeBlock(QBLOCK_TYPE_LEAF);
 	if (e->ny > 0) {
 		qb->SetState(EMPTY_BLOCK_STATE);
 		coin++;
@@ -713,7 +715,7 @@ void CMario::SetLevel(int l)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 	}
-	else if (this->level == MARIO_LEVEL_SMALL && isTransform == 1) {
+	else if (this->level == MARIO_LEVEL_SMALL && isTransform == true) {
 		y -= MARIO_SMALL_BBOX_HEIGHT / 2;
 	}
 	if (!isTransform) {

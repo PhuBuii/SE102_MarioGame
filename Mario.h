@@ -137,6 +137,7 @@
 
 class CMario : public CGameObject
 {
+private:
 	BOOLEAN isSitting;
 	BOOLEAN isHolding;
 
@@ -207,6 +208,7 @@ public:
 	void MarioHolding();
 	void MarioIsAttacked();
 	void SetLevel(int l);
+	int getLevel(){return this->level;}
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

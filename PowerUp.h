@@ -50,6 +50,7 @@ protected:
 	void IsDiversion();
 
 public:
+	void SetType(int typeblock) { this->type = typeblock; }
 	CPowerUp(float x, float y,int type);
 	virtual void SetState(int state);
 };

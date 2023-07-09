@@ -26,6 +26,11 @@ CQuestionBlock::CQuestionBlock(float x, float y, vector<LPGAMEOBJECT>& objects, 
 		pu->SetState(POWER_UP_HIDDEN_STATE);
 		objects.push_back(pu);
 		break;
+	case QBLOCK_TYPE_LEAF:
+		pu = new CPowerUp(x, y - (QBLOCK_BBOX_HEIGHT - MUSHROOM_BBOX_HEIGHT) / 2, SUPER_LEAF);
+		pu->SetState(POWER_UP_HIDDEN_STATE);
+		objects.push_back(pu);
+		break;
 	}
 }
 
@@ -57,21 +62,16 @@ void CQuestionBlock::ActiveEvents() {
 	case QBLOCK_TYPE_1UP:
 		pu->SetState(MUSHROOM_1UP_STATE);
 		break;
+	case QBLOCK_TYPE_LEAF:
+		pu->SetType(SUPER_LEAF);
+		pu->SetState(LEAF_UP_STATE);
+		break;
 	}
 
 }
 
 void CQuestionBlock::OnCollisionWith(LPCOLLISIONEVENT e) {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CMario*>(e->obj)) {
-		float m_x, m_y;
-		CMario* mario = dynamic_cast<CMario*>(e->obj);
-		mario->GetPosition(m_x, m_y);
-		if (m_x <= x)
-			POWERUP_STATE = MUSHROOM_UP_STATE_LEFT;
-		else
-			POWERUP_STATE = MUSHROOM_UP_STATE_RIGHT;
-	}
 }
 void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 

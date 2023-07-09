@@ -5,7 +5,7 @@
 #include "Piranha.h"
 #include "Goomba.h"
 #include "PlayScene.h"
-
+#include "debug.h"
 
 CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
 {
@@ -120,6 +120,11 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	if (dynamic_cast<CQuestionBlock*>(e->obj)) {
 		CQuestionBlock* qb = (CQuestionBlock*)e->obj;
+		CMario* mr = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		if (mr->getLevel() == MARIO_LEVEL_BIG)
+		{
+			qb->SetTypeBlock(QBLOCK_TYPE_LEAF);
+		}
 		if (state == KOOPAS_STATE_SHELL_ROTATE) {
 			qb->SetState(EMPTY_BLOCK_STATE);
 		}
