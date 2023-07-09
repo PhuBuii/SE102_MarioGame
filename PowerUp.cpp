@@ -25,13 +25,8 @@ void CPowerUp::GetBoundingBox(float& left, float& top, float& right, float& bott
 
 void CPowerUp::OnNoCollision(DWORD dt)
 {
-	if (state == MUSHROOM_WALKING_STATE) {
-		x += vx * dt;
-		y += vy * dt;
-	}
-	else if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT || state == MUSHROOM_1UP_STATE|| state == LEAF_UP_STATE) {
-		y += vy * dt;
-	}
+	x += vx * dt;
+	y += vy * dt;
 };
 
 void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
@@ -57,7 +52,6 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += ay * dt;
 		vx += ax * dt;
 	}
-
 	if (y_target != -1 && (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) && y <= y_target) {
 		SetState(MUSHROOM_WALKING_STATE);
 	}
@@ -65,11 +59,12 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(MUSHROOM_WAIT_STATE);
 	}
 	if (y_target != -1 && state == LEAF_UP_STATE && y <= y_target) {
-		OnNoCollision(dt);
-		IsDiversion();
-		vy = ay * dt;
-		return;
+		SetState(LEAF_STATE);
 	}
+	if (state == LEAF_STATE) {
+		OnNoCollision(dt);
+	}
+
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -83,6 +78,8 @@ void CPowerUp::Render()
 		aniId = ID_ANI_POWERUP_MUSHROOM;
 	else if (type == MUSHROOM_1UP)
 		aniId = ID_ANI_MUSHROOM_1UP;
+	if (type == SUPER_LEAF)
+		aniId = ID_ANI_SUPER_LEAF;
 	if (state != POWER_UP_HIDDEN_STATE) {
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
@@ -134,6 +131,9 @@ void CPowerUp::SetState(int state)
 		ay = 0;
 		vy = -MUSHROOM_UP_SPEED;
 		y_target = y-MUSHROOM_BBOX_HEIGHT-10;
+		break;
+	case LEAF_STATE:
+		ay = 0.0005f;
 		break;
 	}
 }

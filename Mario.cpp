@@ -339,7 +339,7 @@ void CMario::OnCollisionWithQuestionBlock(LPCOLLISIONEVENT e) {
 		qb->SetTypeBlock(QBLOCK_TYPE_LEAF);
 	if (e->ny > 0) {
 		qb->SetState(EMPTY_BLOCK_STATE);
-		coin++;
+		if(qb->GetTypeBlock() == QBLOCK_TYPE_COIN)coin++;
 	}
 }
 
