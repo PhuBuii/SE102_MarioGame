@@ -157,20 +157,6 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	float px, py;
 	phaseCheck->GetPosition(px, py);
 
-	if (py - this->y > 10 && state != KOOPAS_STATE_SHELL) {
-		vx = -vx;
-
-		if (state == KOOPAS_WALK_TO_RIGHT) {
-			SetState(KOOPAS_WALK_TO_LEFT);
-		}
-		else if (state == KOOPAS_WALK_TO_LEFT) {
-			SetState(KOOPAS_WALK_TO_RIGHT);
-		}
-
-		if (px <= this->x)
-			phaseCheck->SetPosition(x + KOOPAS_BBOX_WIDTH, y);
-		else phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH, y);
-	}
 
 	phaseCheck->SetSpeed(vx, 1);
 }
@@ -210,7 +196,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-	if (state == KOOPAS_STATE_WALKING_LEFT ) phaseCheck->Update(dt, coObjects);
+	//if (state == KOOPAS_WALK_TO_LEFT || state == KOOPAS_WALK_TO_RIGHT) phaseCheck->Update(dt, coObjects);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -219,12 +205,13 @@ int CKoopas::GetAni() {
 	int aniId = -1;
 	if(color == 0)
 		switch (state) {
-		case KOOPAS_STATE_WALKING_LEFT:
+		case KOOPAS_STATE_WALKING:
+			if (vx < 0)
 			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_LEFT;
 				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);
 			}
-		case KOOPAS_STATE_WALKING_RIGHT:
+			else
 			{
 				aniId = ID_ANI_RED_KOOPAS_WALKING_RIGHT;
 				phaseCheck->SetPosition(x - KOOPAS_BBOX_WIDTH - KOOPAS_TROOPA_PHASE_CHECK_WIDTH / 2, y);

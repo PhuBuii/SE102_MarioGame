@@ -54,7 +54,7 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (y_target != -1 && (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) && y <= y_target) {
 		SetState(MUSHROOM_WALKING_STATE);
 	}
-	if (state == MUSHROOM_1UP_STATE) {
+	if (y_target != -1 && state == MUSHROOM_1UP_STATE && y <= y_target) {
 		SetState(MUSHROOM_WAIT_STATE);
 	}
 
@@ -100,7 +100,10 @@ void CPowerUp::SetState(int state)
 		power_up_direction = 1;
 		break;
 	case MUSHROOM_1UP_STATE:
-		ay = MUSHROOM_GRAVITY;
+		vx = 0;
+		ay = 0;
+		vy = -MUSHROOM_UP_SPEED;
+		y_target = y - MUSHROOM_BBOX_HEIGHT;
 		break;
 	case MUSHROOM_WAIT_STATE:
 		ay = 0;
