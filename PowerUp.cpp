@@ -4,6 +4,8 @@
 CPowerUp::CPowerUp(float x, float y,int type) : CGameObject(x, y) {
 	this->ax = 0;
 	this->ay = 0;
+	x_init = x;
+	x_target = -1;
 	y_target = -1;
 	SetState(POWER_UP_HIDDEN_STATE);
 }
@@ -26,7 +28,9 @@ void CPowerUp::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CPowerUp*>(e->obj)) return;
-
+	if (dynamic_cast<CMario*>(e->obj)) {
+		DirectionOfPowerUp();
+	}
 	if (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) return;
 
 	else if (e->ny != 0)
@@ -59,9 +63,21 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			break;
 		case LEAF_UP_STATE:
 			SetState(LEAF_STATE);
+			DirectionOfPowerUp();
+			vx = vx * power_up_direction;
 			break;
 		default:
 			break;
+		}
+	}
+	if (state == LEAF_STATE) {
+		if (vx > 0 && x >= x_target) {
+			vx = -vx;
+			vy = 0;
+		}
+		else if (vx < 0 && x <= x_init) {
+			vx = -vx;
+			vy = 0;
 		}
 	}
 	CGameObject::Update(dt, coObjects);
@@ -90,11 +106,13 @@ void CPowerUp::Render()
 	}
 	RenderBoundingBox();
 }
-void CPowerUp::IsDiversion()
-{
-	if (GetTickCount64() - start >= LEAF_DIVERT_TIME) {
-		vx = -vx;
-		start = GetTickCount64();
+void CPowerUp::DirectionOfPowerUp() {
+	LPPLAYSCENE current_scene = ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene());
+	CMario* mario = (CMario*)current_scene->GetPlayer();
+	float m_x, m_y;// Mario x,y
+	mario->GetPosition(m_x, m_y);
+	if (x > m_x) {
+		power_up_direction = -power_up_direction;
 	}
 }
 void CPowerUp::SetState(int state)
@@ -134,6 +152,7 @@ void CPowerUp::SetState(int state)
 	case LEAF_UP_STATE:
 		vy = -LEAF_SPEED_UP;
 		y_target = y - 3 * LEAF_BBOX_HEIGHT;
+		x_target = x + 2 * 6;
 		ay = 0;
 		vx = 0;
 		break;
