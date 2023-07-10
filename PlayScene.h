@@ -16,7 +16,6 @@ protected:
 	LPGAMEOBJECT player;					
 
 	vector<LPGAMEOBJECT> objects;
-	float x_mario, y_mario;
 	bool isEnableRenderBoundingBox;
 
 	void _ParseSection_SPRITES(string line);
@@ -28,6 +27,7 @@ protected:
 	void _IsInCamera(LPGAMEOBJECT obj);
 
 	void LoadAssets(LPCWSTR assetFile);
+	float x_mario, y_mario;
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
