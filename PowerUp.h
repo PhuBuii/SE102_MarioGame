@@ -5,9 +5,17 @@
 #define MUSHROOM_GRAVITY 0.002f
 #define POWER_UP_DIRECTION 1
 
+#define LEAF_GRAVITY	0.00001f
+#define LEAF_SPEED_UP	0.02f
+
+#define LEAF_FLOAT_SPEED	0.005f
+
 #define ID_ANI_POWERUP_MUSHROOM 14000
 #define ID_ANI_MUSHROOM_1UP 14001
 #define ID_ANI_SUPER_LEAF 14002
+#define ID_ANI_LEAF_FLY_LEFT 14002
+#define ID_ANI_LEAF_FLY_RIGHT 14003
+
 
 #define MUSHROOM_WALKING_STATE	1
 #define POWER_UP_HIDDEN_STATE 2
@@ -15,14 +23,15 @@
 #define MUSHROOM_UP_STATE_RIGHT 4
 #define MUSHROOM_1UP_STATE 5
 #define MUSHROOM_WAIT_STATE 6
-#define LEAF_UP_STATE 7
-#define LEAF_STATE 8
+#define LEAF_UP_STATE	7
+#define LEAF_STATE	8
 
 #define MUSHROOM_WALKING_SPEED	0.05f
 #define MUSHROOM_UP_SPEED 0.025f
 
 #define MUSHROOM_BBOX_WIDTH 16
 #define MUSHROOM_BBOX_HEIGHT 12
+#define LEAF_BBOX_HEIGHT 13
 
 #define MUSHROOM_SUPER			1
 #define MUSHROOM_1UP			2
@@ -41,7 +50,7 @@ protected:
 	float m_x, m_y, u_x, u_y;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render();
+	void Render();
 
 	virtual int IsCollidable() { return (state != POWER_UP_HIDDEN_STATE) && (state != MUSHROOM_UP_STATE_LEFT || state != MUSHROOM_UP_STATE_RIGHT); };
 	virtual int IsBlocking() { return 0; }

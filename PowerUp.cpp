@@ -3,16 +3,9 @@
 
 CPowerUp::CPowerUp(float x, float y,int type) : CGameObject(x, y) {
 	this->ax = 0;
-	this->ay = MUSHROOM_GRAVITY;
-	this->type = type;
+	this->ay = 0;
 	y_target = -1;
-	if (type == SUPER_LEAF) {
-		ax = MUSHROOM_WALKING_SPEED / 1000;
-		ay = MUSHROOM_GRAVITY ;
-		vx = MUSHROOM_WALKING_SPEED / 3;
-
-		start = GetTickCount64();
-	}
+	SetState(POWER_UP_HIDDEN_STATE);
 }
 
 void CPowerUp::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -52,20 +45,25 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy += ay * dt;
 		vx += ax * dt;
 	}
-	if (y_target != -1 && (state == MUSHROOM_UP_STATE_LEFT || state == MUSHROOM_UP_STATE_RIGHT) && y <= y_target) {
-		SetState(MUSHROOM_WALKING_STATE);
+	if (y_target != -1 && y <= y_target) {
+		switch (state)
+		{
+		case MUSHROOM_UP_STATE_LEFT:
+			SetState(MUSHROOM_WALKING_STATE);
+			break;
+		case MUSHROOM_UP_STATE_RIGHT:
+			SetState(MUSHROOM_WALKING_STATE);
+			break;
+		case MUSHROOM_1UP_STATE:
+			SetState(MUSHROOM_WAIT_STATE);
+			break;
+		case LEAF_UP_STATE:
+			SetState(LEAF_STATE);
+			break;
+		default:
+			break;
+		}
 	}
-	if (y_target != -1 && state == MUSHROOM_1UP_STATE && y <= y_target) {
-		SetState(MUSHROOM_WAIT_STATE);
-	}
-	if (y_target != -1 && state == LEAF_UP_STATE && y <= y_target) {
-		SetState(LEAF_STATE);
-	}
-	if (state == LEAF_STATE) {
-		OnNoCollision(dt);
-	}
-
-
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -73,13 +71,20 @@ void CPowerUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CPowerUp::Render()
 {
-	int aniId = ID_ANI_SUPER_LEAF;
+	int aniId = ID_ANI_POWERUP_MUSHROOM;
 	if (type == MUSHROOM_SUPER)
 		aniId = ID_ANI_POWERUP_MUSHROOM;
 	else if (type == MUSHROOM_1UP)
 		aniId = ID_ANI_MUSHROOM_1UP;
-	if (type == SUPER_LEAF)
-		aniId = ID_ANI_SUPER_LEAF;
+	else if (state == LEAF_UP_STATE) {
+		aniId = ID_ANI_LEAF_FLY_RIGHT;
+	}
+	else if (state == LEAF_STATE) {
+		if (vx < 0)
+			aniId = ID_ANI_LEAF_FLY_LEFT;
+		else
+			aniId = ID_ANI_LEAF_FLY_RIGHT;
+	}
 	if (state != POWER_UP_HIDDEN_STATE) {
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
@@ -127,13 +132,15 @@ void CPowerUp::SetState(int state)
 		vy = 0;
 		break;
 	case LEAF_UP_STATE:
-		vx = 0;
+		vy = -LEAF_SPEED_UP;
+		y_target = y - 3 * LEAF_BBOX_HEIGHT;
 		ay = 0;
-		vy = -MUSHROOM_UP_SPEED;
-		y_target = y-MUSHROOM_BBOX_HEIGHT-10;
+		vx = 0;
 		break;
 	case LEAF_STATE:
-		ay = 0.0005f;
+		vy = 0;
+		vx = -LEAF_FLOAT_SPEED;
+		ay = LEAF_GRAVITY;
 		break;
 	}
 }
