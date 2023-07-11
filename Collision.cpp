@@ -223,6 +223,12 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 *  Simple/Sample collision framework 
 *  NOTE: Student might need to improve this based on game logic 
 */
+void CCollision::Process(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* coObjects)
+{
+	LPGAMEOBJECT objCollided = NULL;
+	if (objSrc->IsCollidable()) Scan(objSrc, coObjects, objCollided);
+	if (objCollided) objSrc->OnCollisionWith(objCollided);
+}
 void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vector<LPCOLLISIONEVENT> coEvents;

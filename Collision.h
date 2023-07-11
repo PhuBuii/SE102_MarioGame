@@ -80,7 +80,7 @@ public:
 		int filterBlock,		
 		int filterX,
 		int filterY);
-
+	void Process(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* coObjects);
 	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	static CCollision* GetInstance();
