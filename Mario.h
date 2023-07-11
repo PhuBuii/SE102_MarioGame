@@ -18,8 +18,10 @@
 #define MARIO_GRAVITY			0.0027f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
+#define MARIO_DIE_DEFLECT_SPEED	0.6f
 
 #define MARIO_STATE_DIE				-10
+#define MARIO_STATE_WAIT_DIE		-11
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
@@ -181,6 +183,7 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 #define MARIO_KICK_TIME_OUT 100
+#define MARIO_WAIT_DIE_TIME_OUT 500
 
 #define MARIO_TRANSFORM_TIME_OUT	500
 #define MARIO_UNTOUCHABLE_TIME 2000
@@ -190,7 +193,7 @@ class CMario : public CGameObject
 private:
 	BOOLEAN isSitting;
 	BOOLEAN isHolding;
-
+	
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -198,6 +201,7 @@ private:
 	int level;
 	int untouchable;
 	ULONGLONG untouchable_start;
+	ULONGLONG start_die;
 	ULONGLONG kick_start;
 	BOOLEAN isTransform;
 	BOOLEAN isOnPlatform;
@@ -233,6 +237,7 @@ public:
 		level = MARIO_LEVEL_SMALL;
 		kick_start = -1;
 		transform_start = -1;
+		start_die = -1;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
@@ -240,6 +245,7 @@ public:
 		isHolding = false;
 		handingMode = false;
 		enemies = NULL;
+		SetState(MARIO_STATE_IDLE);
 		coin = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

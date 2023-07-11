@@ -61,6 +61,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	if (state == MARIO_STATE_WAIT_DIE && GetTickCount64() - start_die > MARIO_WAIT_DIE_TIME_OUT) {
+		start_die = -1;
+		SetState(MARIO_STATE_DIE);
+	}
 
 	if (isTransform) {
 		if (GetTickCount64() - transform_start > MARIO_TRANSFORM_TIME_OUT) {
@@ -279,7 +283,7 @@ void CMario::MarioIsAttacked() {
 	else
 	{
 		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		SetState(MARIO_STATE_WAIT_DIE);
 	}
 }
 void CMario::MarioHolding() {
@@ -514,7 +518,13 @@ int CMario::GetAniIdBig()
 	}
 	else if (!isOnPlatform)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (ax == 0) {
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_SIT_LEFT;
+		}
+		else if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
@@ -676,7 +686,7 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	if (state == MARIO_STATE_DIE)
+	if (state == MARIO_STATE_DIE || state == MARIO_STATE_WAIT_DIE)
 		aniId = ID_ANI_MARIO_DIE;
 	else if (level == MARIO_LEVEL_BIG)
 		aniId = GetAniIdBig();
@@ -699,6 +709,16 @@ void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
 	if (this->state == MARIO_STATE_DIE) return;
+	if (this->state == MARIO_STATE_WAIT_DIE) {
+		if (GetTickCount64() - start_die > MARIO_WAIT_DIE_TIME_OUT) {
+			vy = -MARIO_DIE_DEFLECT_SPEED;
+			ay = MARIO_GRAVITY;
+			vx = 0;
+			ax = 0;
+			CGameObject::SetState(MARIO_STATE_DIE);
+		}
+		return;
+	}
 	CGameObject::SetState(state);
 
 
@@ -777,9 +797,16 @@ void CMario::SetState(int state)
 		ax = 0.0f;
 		vx = 0.0f;
 		break;
-
+	case MARIO_STATE_WAIT_DIE:
+		vy = 0;
+		vx = 0;
+		ax = 0;
+		ay = 0;
+		start_die = GetTickCount64();
+		break;
 	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
+		vy = -MARIO_DIE_DEFLECT_SPEED;
+		ay = MARIO_GRAVITY;
 		vx = 0;
 		ax = 0;
 		break;
