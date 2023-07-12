@@ -320,6 +320,20 @@ void CMario::MarioHolding() {
 				enemies->SetPosition(x + direction * (MARIO_BIG_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 3) / 2, y - 2);
 		}
 		break;
+	case MARIO_LEVEL_RACOON:
+		if (direction == 1) {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_RACOON_BBOX_WIDTH + KOOPAS_BBOX_WIDTH - 3) / 2, y - 1);
+			else
+				enemies->SetPosition(x + direction * (MARIO_RACOON_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 5) / 2, y - 1);
+		}
+		else {
+			if (vx == 0)
+				enemies->SetPosition(x + direction * (MARIO_RACOON_BBOX_WIDTH + KOOPAS_BBOX_WIDTH - 6) / 2, y - 2);
+			else
+				enemies->SetPosition(x + direction * (MARIO_RACOON_BBOX_WIDTH + KOOPAS_BBOX_WIDTH + 3) / 2, y - 2);
+		}
+		break;
 	}
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
