@@ -16,6 +16,7 @@
 #include "TigerBrick.h"
 #include "Piranha.h"
 #include "debug.h"
+#include "TeleportGate.h"
 #include "PSwitch.h"
 
 #include "SampleKeyEventHandler.h"
@@ -226,7 +227,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
-
+	case OBJECT_TYPE_TELEPORT: {
+		float des_x = (float)atof(tokens[3].c_str());
+		float des_y = (float)atof(tokens[4].c_str());
+		int direction = atoi(tokens[5].c_str());
+		obj = new CTeleportGate(x, y, des_x, des_y, direction);
+	}
+	break;
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);

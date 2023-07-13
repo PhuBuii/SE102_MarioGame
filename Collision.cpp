@@ -1,6 +1,6 @@
 #include "Collision.h"
 #include "GameObject.h"
-
+#include "Platform.h"
 #include "debug.h"
 
 #define BLOCK_PUSH_FACTOR 0.00f
@@ -122,6 +122,14 @@ void CCollision::SweptAABB(
 /*
 	Extension of original SweptAABB to deal with two moving objects
 */
+int CCollision::AABB(float sl, float st, float sr, float sb, float dl, float dr, float dt, float db)
+{
+	return sl < dr
+		&& sr > dl
+		&& st < db
+		&& sb > dt;
+}
+
 LPCOLLISIONEVENT CCollision::SweptAABB(LPGAMEOBJECT objSrc, DWORD dt, LPGAMEOBJECT objDest)
 {
 	float sl, st, sr, sb;		// static object bbox
@@ -177,6 +185,30 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	}
 
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
+}
+void CCollision::Scan(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* objDests, LPGAMEOBJECT& objCollided)
+{
+	float sl, st, sr, sb;
+	objSrc->GetBoundingBox(sl, st, sr, sb);
+
+	for (int i = 0; i < objDests->size(); i++) {
+		if (objDests->at(i)->IsDeleted())
+			continue;
+		if (dynamic_cast<CPlatform*>(objDests->at(i)))
+			continue;
+		if (objDests->at(i)->IsBlocking())
+			continue;
+
+		float dl, dt, dr, db;
+		objDests->at(i)->GetBoundingBox(dl, dt, dr, db);
+
+		if (AABB(sl, st, sr, sb, dl, dt, dr, db))
+		{
+			objCollided = objDests->at(i);
+			//DebugOut(L"source: l:%f, t:%f, r:%f, b:%f, destination: l:%f, t:%f, r:%f, b:%f\n", sl, st, sr, sb, dl, dt, dr, db);
+			return;
+		}
+	}
 }
 
 void CCollision::Filter( LPGAMEOBJECT objSrc,

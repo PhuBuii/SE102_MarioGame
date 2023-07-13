@@ -35,6 +35,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_0:
 		mario->SetState(MARIO_STATE_DIE);
 		break;
+	case DIK_UP:
+		mario->SetCanGetIntoPipe(MARIO_GETINTO_PIPE_UP);
+		break;
 	case DIK_SPACE: // Turn on/off rendering bounding box
 		currentScene->SetIsEnableRenderBoundingBox(!enableRenderBoundingBox);
 		break;
@@ -64,6 +67,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetState(MARIO_STATE_HOLDING_RELEASE);
 		break;
 	}
+	case DIK_UP:
+		mario->SetCanGetIntoPipe(0);
+		break;
 	}
 }
 

@@ -188,6 +188,9 @@
 #define MARIO_TRANSFORM_TIME_OUT	500
 #define MARIO_UNTOUCHABLE_TIME 2000
 
+#define MARIO_GETINTO_PIPE_DOWN						1
+#define MARIO_GETINTO_PIPE_UP						2
+
 class CMario : public CGameObject
 {
 private:
@@ -207,6 +210,7 @@ private:
 	BOOLEAN isOnPlatform;
 	BOOLEAN handingMode;
 	ULONGLONG transform_start;
+	int canGetIntoPipe;
 
 	CGameObject* enemies;
 	int coin;
@@ -251,7 +255,13 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
+	void SetCanGetIntoPipe(int var) {
+		canGetIntoPipe = var;
+	}
 
+	int IsCanGetIntoPipe() {
+		return canGetIntoPipe;
+	}
 	int IsCollidable()
 	{
 		return (state != MARIO_STATE_DIE);

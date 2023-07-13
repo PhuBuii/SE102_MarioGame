@@ -22,14 +22,14 @@ void CTeleportGate::OnCollisionWith(LPGAMEOBJECT obj) {
 	switch (direction) {
 	case TELEPORT_DIRECTION_DOWN:
 		if (mario->IsCanGetIntoPipe() == MARIO_GETINTO_PIPE_DOWN) { // Mario get down into pipe(sewer)
-			this->TeleObject(obj);
+			this->TeleObject(mario);
 			//DebugOut(L"[Teleport] teleport Mario\n");
 		}
 		break;
 
 	case TELEPORT_DIRECTION_UP:
 		if (mario->IsCanGetIntoPipe() == MARIO_GETINTO_PIPE_UP) { // Mario get up into pipe(sewer)
-			this->TeleObject(obj);
+			this->TeleObject(mario);
 			//DebugOut(L"[Teleport] teleport Mario\n");
 		}
 		break;
