@@ -32,6 +32,10 @@ void CCoin::Render()
 	}
 	if(state == COIN_NORMAL_STATE)
 	{
+		id_ani = ID_ANI_COIN;
+	}
+	if (state == COIN_TRANSFORM_STATE)
+	{
 		id_ani = ID_ANI_NOACTION;
 	}
 	if (state != COIN_HIDDEN_STATE) {
@@ -56,6 +60,7 @@ void CCoin::SetState(int state) {
 	}
 }
 void CCoin::CoinTransformBrick() {
+	CGameObject::SetState(COIN_TRANSFORM_STATE);
 	if (GetTickCount64() - remain_start >= COIN_TIMEOUT)
 		if ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
 			this->Delete();

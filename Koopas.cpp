@@ -7,18 +7,29 @@
 #include "PlayScene.h"
 #include "debug.h"
 
-CKoopas::CKoopas(float x, float y,int c) :CGameObject(x, y)
+CKoopas::CKoopas(float x, float y, int c) :CGameObject(x, y)
 {
 	this->color = c;
 	this->ax = 0;
 	this->ay = KOOPAS_GRAVITY;
 	isOnHand = false;
 	shell_wait_rotate_start = -1;
-	if (c != KOOPAS_TYPE_GREEN_WING)	SetState(KOOPAS_STATE_WALKING);
+	if (vx == 0) direction = nx > 0 ? 1 : -1;
+	wall = new CInvisibleWall(x + direction * KOOPAS_BBOX_WIDTH, y + 2, KOOPAS_BBOX_WIDTH, KOOPAS_BBOX_HEIGHT);
+
+	if (color != KOOPAS_TYPE_GREEN_WING)	SetState(KOOPAS_STATE_WALKING);
 	else SetState(KOOPAS_STATE_FLY);
 
-	int direction = nx > 0 ? 1 : -1;
 
+	wall->SetSpeed(vx, vy);
+
+
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->AddObject(wall);
+}
+void CKoopas::SetInvisibleWall() {
+	direction = vx > 0 ? 1 : -1;
+	if (vx == 0) direction = nx > 0 ? 1 : -1;
+	wall->SetPosition(x + direction * KOOPAS_BBOX_WIDTH, y);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -78,6 +89,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	float left, right, top, bottom;
 
 	e->obj->GetBoundingBox(left, top, right, bottom);
+	if (dynamic_cast<CInvisibleWall*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) {
 		CKoopas* kp = (CKoopas*)e->obj;
 		if (state == KOOPAS_STATE_SHELL_ROTATE || (isOnHand)) {
@@ -142,11 +154,20 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	if (!e->obj->IsBlocking()) return;
 	// If go end then reverse in walking state
-	if (state == KOOPAS_STATE_WALKING) {
+	/*if (state == KOOPAS_STATE_WALKING) {
 		if ((x < left && vx < 0) || (x > right && vx > 0)) {
 			vx = -vx;
 		}
+	}*/
+	float wx, wy;
+	wall->GetPosition(wx, wy);
+
+	if (wy - y > 10 && state == KOOPAS_STATE_WALKING) {
+		vx = -vx;
+		SetInvisibleWall();
 	}
+
+	wall->SetSpeed(vx, 1);
 
 	if (e->ny != 0)
 	{
@@ -158,6 +179,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->nx != 0)
 	{
 		vx = -vx;
+		SetInvisibleWall();
 	}
 }
 
@@ -179,11 +201,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
 	{
+		wall->Delete();
 		isDeleted = true;
 		return;
 	}
 	if (state == KOOPAS_HIT_BY_KOOPAS)
 	{
+		wall->Delete();
 		if (GetTickCount64() - die_start > GOOMBA_BOUNCE_TIMEOUT) {
 			ay = KOOPAS_GRAVITY;
 		}
@@ -196,7 +220,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-	//if (state == KOOPAS_WALK_TO_LEFT || state == KOOPAS_WALK_TO_RIGHT) phaseCheck->Update(dt, coObjects);
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -302,6 +325,7 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_WALKING_SPEED;
 		vy = 0;
 		ay = KOOPAS_GRAVITY;
+		SetInvisibleWall();
 		break;
 	case KOOPAS_STATE_FLY:
 		shell_transform_start = -1;

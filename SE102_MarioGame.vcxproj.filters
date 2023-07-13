@@ -108,13 +108,13 @@
     <ClInclude Include="Piranha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhaseChecker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PSwitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TeleportGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvisibleWall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -200,13 +200,13 @@
     <ClCompile Include="Piranha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhaseChecker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PSwitch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TeleportGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvisibleWall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

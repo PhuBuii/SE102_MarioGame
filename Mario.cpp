@@ -362,7 +362,7 @@ void CMario::MarioHolding() {
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	int coin_state = e->obj->GetState();
-	if (coin_state == COIN_NORMAL_STATE) {
+	if (coin_state == COIN_NORMAL_STATE || coin_state ==COIN_TRANSFORM_STATE) {
 		e->obj->Delete();
 		coin++;
 	}
