@@ -41,6 +41,7 @@
 #define MARIO_STATE_HOLDING_RELEASE 801
 
 #define MARIO_STATE_TRANSFORM	900
+#define MARIO_STATE_RACOON_TRANSFORM 950
 
 #pragma region ANIMATION_ID
 
@@ -141,8 +142,7 @@
 #define ID_ANI_MARIO_RACOON_SIT_LEFT	2700
 #define ID_ANI_MARIO_RACOON_SIT_RIGHT	2701
 
-#define ID_ANI_MARIO_RACOON_TRANSFORM_TO_BIG_LEFT	2800
-#define ID_ANI_MARIO_RACOON_TRANSFORM_TO_BIG_RIGHT	2801
+#define ID_ANI_MARIO_RACOON_TRANSFORM_TO_BIG 2800
 
 #define ID_ANI_MARIO_RACOON_KICK_LEFT	2900
 #define ID_ANI_MARIO_RACOON_KICK_RIGHT	2901
@@ -186,6 +186,7 @@
 #define MARIO_WAIT_DIE_TIME_OUT 500
 
 #define MARIO_TRANSFORM_TIME_OUT	500
+#define MARIO_RACOON_TRANSFORM_TIME_OUT 300
 #define MARIO_UNTOUCHABLE_TIME 2000
 
 #define MARIO_GETINTO_PIPE_DOWN						1
@@ -202,6 +203,7 @@ private:
 	float ay;				// acceleration on y 
 
 	int level;
+	int transformType;
 	int untouchable;
 	ULONGLONG untouchable_start;
 	ULONGLONG start_die;
@@ -245,6 +247,7 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
+		transformType = -1;
 		isTransform = false;
 		isHolding = false;
 		handingMode = false;
